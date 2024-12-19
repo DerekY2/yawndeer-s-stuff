@@ -1,0 +1,57 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "manifest_version": 3,
+
+  "name": "yawndeer.exe",
+  
+  "short_name": "yawndeer.exe",
+
+  "version": "0.1",
+  
+  "description": "yawndeer's stuff.",
+
+  
+  "icons": {
+    "48": "assets/images/Sparkle_Doll.png",
+    "128": "assets/images/Sparkle_Doll.png"
+  },
+
+  "permissions": [ "activeTab", 
+                   "contextMenus", 
+                   "storage", 
+                   "scripting"],
+
+  "content_security_policy": {
+    "sandbox": "sandbox allow-scripts; 'unsafe-inline' 'self'"
+  },
+
+  "host_permissions": ["<all_urls>"],
+
+  "action": {
+    "default_title": "Reader.",
+    "default_icon": "assets/images/Sparkle_Doll.png",
+    "default_popup": "popup.html"
+  },
+  
+  "background": {
+    "service_worker": "javascripts/background.js",
+    "type": "module"
+  },
+
+  "web_accessible_resources": [{
+    "resources": [
+      "*.html",
+      "webfonts/*",
+      "*.woff2",
+      "*.tff",
+      "assets/*",
+      "javascripts/*",
+      "styles/*",
+      "css/fontawesome-all.css",
+      "webfonts/fa-regular-400.woff2",
+      "webfonts/fa-brands-400.ttf"
+    ],
+    "matches": ["<all_urls>"]
+  }]
+}
