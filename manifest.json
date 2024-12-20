@@ -3,18 +3,18 @@
 
   "manifest_version": 3,
 
-  "name": "yawndeer.exe",
+  "name": "yawndeer's stuff",
   
-  "short_name": "yawndeer.exe",
+  "short_name": "yawndeer's stuff",
 
   "version": "0.1",
   
-  "description": "yawndeer's stuff.",
+  "description": "Collection of projects",
 
   
   "icons": {
-    "48": "assets/images/Sparkle_Doll.png",
-    "128": "assets/images/Sparkle_Doll.png"
+    "48": "images/Sparkle_Doll.png",
+    "128": "images/Sparkle_Doll.png"
   },
 
   "permissions": [ "activeTab", 
@@ -30,7 +30,7 @@
 
   "action": {
     "default_title": "Reader.",
-    "default_icon": "assets/images/Sparkle_Doll.png",
+    "default_icon": "images/Sparkle_Doll.png",
     "default_popup": "popup.html"
   },
   
@@ -45,7 +45,7 @@
       "webfonts/*",
       "*.woff2",
       "*.tff",
-      "assets/*",
+      "images/*",
       "javascripts/*",
       "styles/*",
       "css/fontawesome-all.css",

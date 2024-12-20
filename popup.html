@@ -5,42 +5,126 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>yawndeer's stuff</title>
   <link rel="stylesheet" href="styles/style.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="boxicons-2.1.4/css/boxicons.css">
+  <!-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>  -->
   <script type="module" src="javascripts/popup.js"></script>
 </head>
 <body>
-  <div class="logo-details">
-    <img class="logo-image"src="images/Sparkle_Doll.png" alt="Sparkle_Doll">
-    <span class="logo-name">yawndeer's stuff</span>
-  </div>
-  <ul class="nav-links">
-    <li>
-      <a href="#">
-        <i class="bx bx-grid-alt"></i>
-        <span class="link-name">Dashboard</span>
-      </a>
-    </li>
-    <!-- entry -->
-    <li>
-      <div class="icon-link">
-        <a href="#">
-          <i class="bx bx-grid-alt"></i>
-          <span class="link-name">Human Benchmark</span>
-        </a>
-          <i class="bx bxs-chevron-down arrow"></i>
-      </div>
-    </li>
-    <!-- entry -->
-    <li>
-      <div class="icon-link">
-        <a href="#">
-          <i class="bx bx-grid-alt"></i>
-          <span class="link-name">Human Benchmark</span>
-        </a>
-          <i class="bx bxs-chevron-down arrow"></i>
-      </div>
-    </li>
-  </ul>
   
+  <div class="panel">
+    <div class="pls-donate-ahh-fixed test">
+      <a target="_blank" href="https://www.buymeacoffee.com/yawndeer">
+        <img src="images/coffee-small.png">
+      </a>
+    </div>
+    <div class="logo-details">
+      <img class="logo-image"src="images/Sparkle_Doll.png" alt="Sparkle_Doll">
+      <span class="logo-name">yawndeer's stuff</span>
+    </div>
+    <ul class="nav-links">
+      <li class="">
+        <div class="node" id="dashboard">
+          <a href="#">
+            <i class="bx bx-grid-alt"></i>
+            <span class="link-name">Dashboard</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link-name" href="#">Atlas</a></li>
+          </ul>
+        </div>
+      </li>
+      <!-- entry -->
+      <li>
+        <div class="node" id="human-benchmark">
+          <a href="#">
+            <i class='bx bx-dumbbell'></i>
+            <span class="link-name">Human Benchmark</span>
+          </a>
+            <i class="bx bxs-chevron-down arrow"></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link-name" href="#"><span>Category</span></a></li>
+          <li><a href="#" class=""><span>Reaction Time</span></a></li>
+          <li><a href="#" class=""><span>Chimp Test</span></a></li>
+        </ul>
+      </li>
+      <!-- entry -->
+      <li>
+        <div class="node" id="spacetime">
+          <a href="#">
+            <i class='bx bx-planet' ></i>
+            <span class="link-name">Spacetime</span>
+          </a>
+            <i class="bx bxs-chevron-down arrow"></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link-name" href="#"><span>Atlas</span></a></li>
+          <li><a href="#" class=""><span>Stargazer</span></a></li>
+          <li><a href="#" class=""><span>Navigation</span></a></li>
+          <li><a href="#" class=""><span>All-stars</span></a></li>
+        </ul>
+      </li>
+
+      <li class="test">
+        <a href="#">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link-name" id="analytics">Analytics</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link-name" href="#">Statistics</a></li>
+        </ul>
+      </li>
+
+      <!-- entry -->
+      <li>
+        <div class="node" id="plugins">
+          <a href="#">
+            <i class="bx bx-plug"></i>
+            <span class="link-name">Plugins</span>
+          </a>
+            <i class="bx bxs-chevron-down arrow"></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link-name" href="#"><span>Plugs</span></a></li>
+          <li><a href="#" class=""><span>In Your Face</span></a></li>
+          <li><a href="#" class=""><span>Pigs</span></a></li>
+          <li><a href="#" class=""><span>Box2</span></a></li>
+        </ul>
+      </li>
+
+      <li class="">
+        <div class="node" id="dashboard">
+          <a href="#">
+            <i class="bx bx-cog"></i>
+            <span class="link-name">Settings</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link-name" href="#">Settings</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="test">
+        <div class="profile-details">
+          <div class="profile-content">
+            <img class="profile-image"src="images/profile-square.jpg" alt="profile">
+          </div>
+          <div class="name-title">
+            <div class="profile-name">yawndeer</div>
+            <div class="profile-title">what am I</div>
+          </div>
+          <i class="bx bx-log-out"></i>
+        </div>
+      </li>
+
+
+      <div class="pls-donate-ahh">
+        <a target="_blank" href="https://www.buymeacoffee.com/yawndeer">
+          <img src="images/coffee-small.png" >
+        </a>
+      </div>
+    </ul>
+    
+  </div>
 </body>
 </html>

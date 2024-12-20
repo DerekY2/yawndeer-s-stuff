@@ -1,17 +1,14 @@
+let selection = document.querySelectorAll(".node");
+let tycoon = document.querySelectorAll(".pls-donate-ahh")
 
+console.log(selection);
+for(var i=0; i<selection.length; i++){
+  selection[i].addEventListener("click", (e)=>{
+    let selectionParent = e.target.closest("li");
+    console.log(selectionParent);
+    selectionParent.classList.toggle("showMenu")
+  })
 
-document.querySelector('.dropbtn').addEventListener('click', function() {
-  document.querySelector('.dropdown-stuff').classList.toggle('show');
-});
-
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-stuff");
-    for (var i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
+  let panel = document.querySelector(".panel");
+  console.log(panel)
 }
