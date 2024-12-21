@@ -36,6 +36,11 @@
     "service_worker": "javascripts/background.js"
   },
 
+  "options_ui":{
+    "page": "config.html",
+    "open_in_tab": true
+  },
+
   "web_accessible_resources": [{
     "resources": [
       "*.html",
@@ -44,7 +49,7 @@
       "images/*",
       "javascripts/*",
       "styles/*",
-      "reaction-time.js"
+      "armory/"
     ],
     "matches": ["<all_urls>"]
   }]
