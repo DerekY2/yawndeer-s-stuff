@@ -10,6 +10,15 @@ nodes.forEach(node => {
   })
 })
 
+// click listener & open options page
+let staticNodes = document.querySelectorAll(".node.static.config");
+console.log(staticNodes)
+staticNodes.forEach(node => {
+  node.addEventListener("click", (e)=>{
+    chrome.runtime.openOptionsPage()
+  })
+})
+
 // click listener - selectors
 let nodeSelectors = document.querySelectorAll(".selector");
 // console.log(nodeSelectors)
@@ -23,38 +32,40 @@ nodeSelectors.forEach(selector =>{
 })
 
 function inject(file, request_url){
+  if(file){
   var targetTab
-  chrome.tabs.query({}, tabs => {
-    var tabList = []
-    tabs.forEach(tab =>{
-      if(tab.url===request_url){
-        tabList.push(tab)
-        console.log("Found ",request_url,"activated:",tab)
-      }
-    })
-    if(tabList.length>0){
-      chrome.tabs.update(tabList[tabList.length-1].id, {active: true})
-      targetTab = tabList[tabList.length-1].id
-      chrome.scripting.executeScript({
-        target: {tabId: targetTab},
-        files: [file]
+    chrome.tabs.query({}, tabs => {
+      var tabList = []
+      tabs.forEach(tab =>{
+        if(tab.url===request_url){
+          tabList.push(tab)
+          console.log("Found ",request_url,"activated:",tab)
+        }
       })
-    }
-    else{
-      console.log("No matching tabs found - ",tabList)
-      chrome.tabs.create({url: request_url}, tab =>{
-        console.log("new tab created")
-        targetTab = tab.id
+      if(tabList.length>0){
+        chrome.tabs.update(tabList[tabList.length-1].id, {active: true})
+        targetTab = tabList[tabList.length-1].id
         chrome.scripting.executeScript({
           target: {tabId: targetTab},
           files: [file]
-        }).catch(error=>{
-          console.error("Error executing script:", error)
         })
-        // sendRequest(targetTab)
-      })
-    }
-  })
+      }
+      else{
+        console.log("No matching tabs found - ",tabList)
+        chrome.tabs.create({url: request_url}, tab =>{
+          console.log("new tab created")
+          targetTab = tab.id
+          chrome.scripting.executeScript({
+            target: {tabId: targetTab},
+            files: [file]
+          }).catch(error=>{
+            console.error("Error executing script:", error)
+          })
+          // sendRequest(targetTab)
+        })
+      }
+    })
+  }
 }
 
 // async function sendRequest(targetTab) {
