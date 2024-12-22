@@ -35,6 +35,7 @@ nodeSelectors.forEach(selector =>{
 let showUpdates = document.querySelector('.show-version-details')
 showUpdates.addEventListener('click',(e)=>{
   open('updates.html')
+  window.close()
   console.log('opened updates.html')
 })
 

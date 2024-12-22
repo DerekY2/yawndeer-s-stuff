@@ -49,6 +49,10 @@ body {
   filter: sepia(1) saturate(10) hue-rotate(0deg);
 }
 
+.pls-donate-ahh img:active{
+  transform: scale(1.8);
+}
+
 .pls-donate-ahh-fixed img{
   width: 20px;
 }
@@ -74,6 +78,11 @@ body {
 .version-details span:hover{
   transform: scale(1.2);
   color: #2af85d;
+}
+
+.version-details span:active{
+  transform: scale(1.4);
+  color: #7eff9c;
 }
 
 .panel{
