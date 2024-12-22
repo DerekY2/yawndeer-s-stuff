@@ -150,3 +150,8 @@ body, html {
   transform: scale(1.5);
   filter: sepia(1) saturate(10) hue-rotate(0deg);
 }
+
+.pls-donate-ahh-fixed img:active{
+  transition: all 0.1s ease;
+  transform: scale(1.8);
+}

@@ -50,7 +50,8 @@ body {
 }
 
 .pls-donate-ahh img:active{
-  transform: scale(1.8);
+  transition: all 0.1s ease;
+  transform: scale(1.7);
 }
 
 .pls-donate-ahh-fixed img{
@@ -81,6 +82,7 @@ body {
 }
 
 .version-details span:active{
+  transition: all 0.1s ease;
   transform: scale(1.4);
   color: #7eff9c;
 }
