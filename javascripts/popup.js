@@ -31,6 +31,12 @@ nodeSelectors.forEach(selector =>{
   })
 })
 
+let showUpdates = document.querySelector('.show-version-details')
+showUpdates.addEventListener('click',(e)=>{
+  open('updates.html')
+  console.log('opened updates.html')
+})
+
 function inject(file, request_url){
   if(file){
   var targetTab
@@ -63,6 +69,26 @@ function inject(file, request_url){
           })
           // sendRequest(targetTab)
         })
+      }
+    })
+  }
+}
+
+function open(request_url){
+  if(request_url){
+    chrome.tabs.query({}, tabs => {
+      var tabList = []
+      tabs.forEach(tab =>{
+        if(tab.url.includes(request_url) || tab.url===chrome.runtime.getURL(request_url)){
+          tabList.push(tab)
+        }else{
+        }
+      })
+      if(tabList.length>0){
+        chrome.tabs.update(tabList[tabList.length-1].id, {active: true})
+      }
+      else{
+        chrome.tabs.create({url: request_url})
       }
     })
   }

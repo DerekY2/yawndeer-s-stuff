@@ -3,11 +3,11 @@
 
   "manifest_version": 3,
 
-  "name": "testing stuff",
+  "name": "Sparkling H2O2",
   
-  "short_name": "testing stuff",
+  "short_name": "Sparkling H2O2",
 
-  "version": "0.1.2",
+  "version": "0.1.3",
   
   "description": "Collection of projects",
 
@@ -17,7 +17,7 @@
     "128": "images/Sparkle_Doll.png"
   },
 
-  "permissions": ["tabs", "storage", "scripting"],
+  "permissions": ["tabs", "scripting"],
 
   "host_permissions": ["<all_urls>"],
 
@@ -27,7 +27,7 @@
 
  
   "action": {
-    "default_title": "testing stuff",
+    "default_title": "Sparkling H2O2",
     "default_icon": "images/Sparkle_Doll.png",
     "default_popup": "popup.html"
   },
