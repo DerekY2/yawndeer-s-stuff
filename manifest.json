@@ -19,21 +19,16 @@
 
   "permissions": ["tabs", "scripting"],
 
-  "host_permissions": ["<all_urls>"],
+  "host_permissions": ["https://humanbenchmark.com/*"],
 
   "content_security_policy": {
     "sandbox": "sandbox allow-scripts; 'unsafe-inline' 'self'"
   },
 
- 
   "action": {
     "default_title": "Sparkling H2O2",
     "default_icon": "images/Sparkle_Doll.png",
     "default_popup": "popup.html"
-  },
-  
-  "background": {
-    "service_worker": "javascripts/background.js"
   },
 
   "options_ui":{

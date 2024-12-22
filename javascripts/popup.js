@@ -31,6 +31,7 @@ nodeSelectors.forEach(selector =>{
   })
 })
 
+// listener - open updates.html when clicked
 let showUpdates = document.querySelector('.show-version-details')
 showUpdates.addEventListener('click',(e)=>{
   open('updates.html')
@@ -93,9 +94,3 @@ function open(request_url){
     })
   }
 }
-
-// async function sendRequest(targetTab) {
-//   return new Promise((resolve) => {
-//     chrome.runtime.sendMessage({ action: ["clickGreen", targetTab]}, resolve);
-//   });
-// }
