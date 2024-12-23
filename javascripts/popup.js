@@ -1,5 +1,3 @@
-
-
 // click listener & menu toggle - nodes
 let nodes = document.querySelectorAll(".node");
 nodes.forEach(node => {
