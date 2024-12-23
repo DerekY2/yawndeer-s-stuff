@@ -10,7 +10,6 @@ nodes.forEach(node => {
 
 // click listener & open options page
 let staticNodes = document.querySelectorAll(".node.static.config");
-console.log(staticNodes)
 staticNodes.forEach(node => {
   node.addEventListener("click", (e)=>{
     chrome.runtime.openOptionsPage()
@@ -19,13 +18,10 @@ staticNodes.forEach(node => {
 
 // click listener - selectors
 let nodeSelectors = document.querySelectorAll(".selector");
-// console.log(nodeSelectors)
 nodeSelectors.forEach(selector =>{
   selector.addEventListener("click", (e)=>{
     e.preventDefault
-    console.log(selector.classList[1],"clicked")
     inject(selector.dataset.injection, selector.dataset.url)
-    console.log("Injected",selector.dataset.url,"with",selector.dataset.injection)
   })
 })
 
@@ -34,7 +30,6 @@ let showUpdates = document.querySelector('.show-version-details')
 showUpdates.addEventListener('click',(e)=>{
   open(showUpdates.dataset.url)
   window.close()
-  console.log('opened updates.html')
 })
 
 function inject(file, request_url){
@@ -50,17 +45,12 @@ function inject(file, request_url){
         })
       }
       else{
-        console.log("No matching tabs found - ",tabs)
         chrome.tabs.create({url: request_url}, tab =>{
-          console.log("new tab created")
           targetTab = tab.id
           chrome.scripting.executeScript({
             target: {tabId: targetTab},
             files: [file]
-          }).catch(error=>{
-            console.error("Error executing script:", error)
           })
-          // sendRequest(targetTab)
         })
       }
     })
@@ -74,7 +64,6 @@ function open(request_url){
         chrome.tabs.update(tabs[tabs.length-1].id, {active: true})
       }
       else{
-        console.log("No matching tabs found - ",tabs)
         chrome.tabs.create({url: request_url})
       }
     })
