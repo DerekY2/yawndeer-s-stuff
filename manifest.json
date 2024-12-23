@@ -3,7 +3,7 @@
 
   "manifest_version": 3,
 
-  "name": "Sparkling H2O2",
+  "name": "Sparkling H2O2 Test",
   
   "short_name": "Sparkling H2O2",
 
@@ -17,7 +17,7 @@
     "128": "images/Sparkle_Doll.png"
   },
 
-  "permissions": ["tabs", "scripting"],
+  "permissions": ["scripting"],
 
   "host_permissions": ["https://humanbenchmark.com/*"],
 

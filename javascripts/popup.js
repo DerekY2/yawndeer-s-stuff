@@ -32,7 +32,7 @@ nodeSelectors.forEach(selector =>{
 // listener - open updates.html when clicked
 let showUpdates = document.querySelector('.show-version-details')
 showUpdates.addEventListener('click',(e)=>{
-  open('updates.html')
+  openLocal('updates.html')
   window.close()
   console.log('opened updates.html')
 })
@@ -40,24 +40,17 @@ showUpdates.addEventListener('click',(e)=>{
 function inject(file, request_url){
   if(file){
   var targetTab
-    chrome.tabs.query({}, tabs => {
-      var tabList = []
-      tabs.forEach(tab =>{
-        if(tab.url===request_url){
-          tabList.push(tab)
-          console.log("Found ",request_url,"activated:",tab)
-        }
-      })
-      if(tabList.length>0){
-        chrome.tabs.update(tabList[tabList.length-1].id, {active: true})
-        targetTab = tabList[tabList.length-1].id
+    chrome.tabs.query({'url':request_url}, tabs => {
+      if(tabs.length>0){
+        chrome.tabs.update(tabs[tabs.length-1].id, {active: true})
+        targetTab = tabs[tabs.length-1].id
         chrome.scripting.executeScript({
           target: {tabId: targetTab},
           files: [file]
         })
       }
       else{
-        console.log("No matching tabs found - ",tabList)
+        console.log("No matching tabs found - ",tabs)
         chrome.tabs.create({url: request_url}, tab =>{
           console.log("new tab created")
           targetTab = tab.id
@@ -76,16 +69,9 @@ function inject(file, request_url){
 
 function open(request_url){
   if(request_url){
-    chrome.tabs.query({}, tabs => {
-      var tabList = []
-      tabs.forEach(tab =>{
-        if(tab.url.includes(request_url) || tab.url===chrome.runtime.getURL(request_url)){
-          tabList.push(tab)
-        }else{
-        }
-      })
-      if(tabList.length>0){
-        chrome.tabs.update(tabList[tabList.length-1].id, {active: true})
+    chrome.tabs.query({'url': request_url}, tabs => {
+      if(tabs && tabs.length>0){
+        chrome.tabs.update(tabs[tabs.length-1].id, {active: true})
       }
       else{
         chrome.tabs.create({url: request_url})
@@ -93,3 +79,17 @@ function open(request_url){
     })
   }
 }
+
+// function openLocal(request_url){
+//   if(request_url){
+//     var longWang = chrome.runtime.getURL(request_url)
+//     chrome.tabs.query({'url': longWang}, tabs => {   
+//       if(tabs && tabs.length>0){
+//         chrome.tabs.update(tabs[tabs.length-1].id, {active: true})
+//       }
+//       else{
+//         chrome.tabs.create({url: request_url})
+//       }
+//     })
+//   }
+// }
