@@ -47,7 +47,7 @@
           <li>
             <a href="#" class="selector carleton" data-url="https://central.carleton.ca/prod/bwskfshd.P_CrseSchd" data-injection="armory/carleton-timetables.js">
               <span>Carleton</span>
-              <div class="config-btn" data-school="carleton" data-node="timetable-tool">
+              <div class="config-btn" data-school="carleton" data-sub="timetable-tool">
                 <i class="bx bx-cog"></i>
               </div>
             </a>
@@ -56,7 +56,7 @@
           <li>
             <a href="#" class="selector carleton" data-url="https://central.carleton.ca/prod/bwskfshd.P_CrseSchd" data-injection="armory/carleton-timetables.js">
               <span>Ottawa</span>
-              <div class="config-btn" data-school="ottawa" data-node="timetable-tool">
+              <div class="config-btn" data-school="ottawa" data-sub="timetable-tool">
                 <i class="bx bx-cog"></i>
               </div>
             </a>
@@ -65,7 +65,7 @@
           <li>
             <a href="#" class="selector carleton" data-url="https://central.carleton.ca/prod/bwskfshd.P_CrseSchd" data-injection="armory/carleton-timetables.js">
               <span>Waterloo</span>
-              <div class="config-btn" data-school="waterloo" data-node="timetable-tool">
+              <div class="config-btn" data-school="waterloo" data-sub="timetable-tool">
                 <i class="bx bx-cog"></i>
               </div>
             </a>
@@ -86,7 +86,7 @@
           <li>
             <a href="#" class="selector reaction-time" data-url="https://humanbenchmark.com/tests/reactiontime/" data-injection="armory/reaction-time.js">
               <span>Reaction Time</span>
-              <div class="config-btn" data-node="human-benchmark" data-sub="reaction-time">
+              <div class="config-btn" data-node="human-benchmark" data-sub="reaction-time-bool">
                 <i class="bx bx-cog"></i>
               </div>
             </a>
@@ -94,7 +94,7 @@
           <li>
             <a href="#" class="selector chimp-test" data-url="https://humanbenchmark.com/tests/chimp" data-injection="armory/chimp-test.js">
               <span>Chimp Test</span>
-              <div class="config-btn" data-node="human-benchmark" data-sub="chimp test">
+              <div class="config-btn" data-node="human-benchmark" data-sub="chimp-test">
                 <i class="bx bx-cog"></i>
               </div>
             </a>
@@ -237,7 +237,32 @@
     </div>
 
     <!-- Configuration overlay -->
-    <div class="human-benchmark reaction-time config-overlay hidden">
+    <div class="human-benchmark reaction-time bool config-overlay hidden">
+      <!-- Header -->
+      <div class="config-header">
+        <h3>Set Response Time</h3>
+        <i class='bx bx-x human-benchmark reaction-time-bool close-btn'></i>
+      </div>
+      <!-- Config -->
+      <div class="human-benchmark reaction-time config-content">
+        <!-- Add your configuration options here -->
+        <div class="row-input">
+          <div class="slider-min">Fast (~200ms)</div>
+          <input type="range" min="1" max="100" value="1" class="slider-reaction-time slider" id="reaction-time-bool">
+          <div class="slider-max">A Little Faster (~3ms)</div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="reaction-time config-footer">
+        <div class="reaction-bool-reset-btn config-reset-btn"><span>Reset</span></div>
+        <div class="reaction-bool-save-btn config-save-btn"><span>Save</span></div>
+        <div class="reaction-bool-admin-btn config-admin-btn"><span>Admin Commands</span></div>
+      </div>
+    </div>
+
+    
+    <!-- Configuration overlay -->
+    <div class="human-benchmark reaction-time-test config-overlay test">
       <!-- Header -->
       <div class="config-header">
         <h3>Set Response Time</h3>
@@ -246,14 +271,14 @@
       <!-- Config -->
       <div class="human-benchmark reaction-time config-content">
         <!-- Add your configuration options here -->
-        <div class="reaction-input">
-          <input type="range" min="1" max="500" value="200" class="slider-reaction-time" id="reaction-time-goal">
+        <div class="row-input">
+          <input type="range" min="1" max="500" value="200" class="slider-reaction-time slider" id="reaction-time-goal">
           <div>
             <input type="text" inputmode="numeric" pattern="[0-9]*" class="slider-textbox"id="reaction-time-input" name="reaction-time-goal">
             <span>ms</span>
           </div>
         </div>
-        <div class="reaction-range-input">
+        <div class="reaction-range-input row-input">
           <span class="optional-span-text">Range (optional): +/-</span>
           <div>
             <input type="text" inputmode="numeric" pattern="[0-9]*" class="slider-textbox" id="reaction-range-input" name="reaction-time-range">
@@ -266,6 +291,30 @@
         <div class="reaction-reset-btn config-reset-btn"><span>Reset</span></div>
         <div class="reaction-save-btn config-save-btn"><span>Save</span></div>
         <div class="reaction-admin-btn config-admin-btn"><span>Admin Commands</span></div>
+      </div>
+    </div>
+
+    <!-- Configuration overlay -->
+    <div class="human-benchmark chimp-test config-overlay hidden">
+      <!-- Header -->
+      <div class="config-header">
+        <h3>Set Click Interval</h3>
+        <i class='bx bx-x human-benchmark chimp-test close-btn'></i>
+      </div>
+      <!-- Config -->
+      <div class="human-benchmark chimp-test config-content">
+        <!-- Add your configuration options here -->
+        <div class="chimp-input">
+          <input type="range" min="1" max="500" value="200" class="slider-chimp-test slider" id="chimp-test-goal">
+          <input type="text" inputmode="numeric" pattern="[0-9]*" class="slider-textbox"id="chimp-test-input" name="chimp-test-goal">
+          <span>ms</span>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="chimp-test config-footer">
+        <div class="chimp-reset-btn config-reset-btn"><span>Reset</span></div>
+        <div class="chimp-save-btn config-save-btn"><span>Save</span></div>
+        <div class="chimp-admin-btn config-admin-btn"><span>Admin Commands</span></div>
       </div>
     </div>
     
