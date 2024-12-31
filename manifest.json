@@ -3,11 +3,11 @@
 
   "manifest_version": 3,
 
-  "name": "Sparkling H2O2",
+  "name": "Sparkling H2O2 test",
   
   "short_name": "Sparkling H2O2",
 
-  "version": "0.1.3.3",
+  "version": "0.1.4.0",
   
   "description": "Collection of projects",
 
@@ -17,7 +17,7 @@
     "128": "images/Sparkle_Doll.png"
   },
 
-  "permissions": ["scripting"],
+  "permissions": ["scripting", "storage"],
 
   "host_permissions": ["<all_urls>"],
 

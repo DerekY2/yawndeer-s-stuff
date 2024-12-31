@@ -25,7 +25,7 @@
       <li class="test">
         <div class="node static config" id="dashboard" data-url="config.html">
           <a href="#">
-            <i class="bx bx-grid-alt"></i>
+            <i class="bx bx-grid-alt central"></i>
             <span class="link-name">Dashboard</span>
           </a>
           <ul class="sub-menu blank">
@@ -33,28 +33,82 @@
           </ul>
         </div>
       </li>
+
+      <!-- entry -->
+      <li>
+        <div class="node" id="timetable-tool">
+          <a href="#">
+            <i class='bx bx-calendar central' ></i>
+            <span class="link-name">Timetable Tool</span>
+          </a>
+            <i class="bx bxs-chevron-down arrow central"></i>
+        </div>
+        <ul class="sub-menu">
+          <li>
+            <a href="#" class="selector carleton" data-url="https://central.carleton.ca/prod/bwskfshd.P_CrseSchd" data-injection="armory/carleton-timetables.js">
+              <span>Carleton</span>
+              <div class="config-btn" data-school="carleton" data-node="timetable-tool">
+                <i class="bx bx-cog"></i>
+              </div>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="selector carleton" data-url="https://central.carleton.ca/prod/bwskfshd.P_CrseSchd" data-injection="armory/carleton-timetables.js">
+              <span>Ottawa</span>
+              <div class="config-btn" data-school="ottawa" data-node="timetable-tool">
+                <i class="bx bx-cog"></i>
+              </div>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="selector carleton" data-url="https://central.carleton.ca/prod/bwskfshd.P_CrseSchd" data-injection="armory/carleton-timetables.js">
+              <span>Waterloo</span>
+              <div class="config-btn" data-school="waterloo" data-node="timetable-tool">
+                <i class="bx bx-cog"></i>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </li>
+
       <!-- entry -->
       <li>
         <div class="node" id="human-benchmark">
           <a href="#">
-            <i class='bx bx-dumbbell'></i>
+            <i class='bx bx-dumbbell central'></i>
             <span class="link-name">Human Benchmark</span>
           </a>
-            <i class="bx bxs-chevron-down arrow"></i>
+            <i class="bx bxs-chevron-down arrow central"></i>
         </div>
         <ul class="sub-menu">
-          <li><a href="#" class="selector reaction-time" data-url="https://humanbenchmark.com/tests/reactiontime/" data-injection="armory/reaction-time.js"><span>Reaction Time</span></a></li>
-          <li><a href="#" class="selector chimp-test" data-url="https://humanbenchmark.com/tests/chimp" data-injection="armory/chimp-test.js"><span>Chimp Test</span></a></li>
+          <li>
+            <a href="#" class="selector reaction-time" data-url="https://humanbenchmark.com/tests/reactiontime/" data-injection="armory/reaction-time.js">
+              <span>Reaction Time</span>
+              <div class="config-btn" data-node="human-benchmark" data-sub="reaction-time">
+                <i class="bx bx-cog"></i>
+              </div>
+            </a>
+            </li>
+          <li>
+            <a href="#" class="selector chimp-test" data-url="https://humanbenchmark.com/tests/chimp" data-injection="armory/chimp-test.js">
+              <span>Chimp Test</span>
+              <div class="config-btn" data-node="human-benchmark" data-sub="chimp test">
+                <i class="bx bx-cog"></i>
+              </div>
+            </a>
+          </li>
         </ul>
       </li>
       <!-- entry -->
       <li>
         <div class="test" id="spacetime">
           <a href="#">
-            <i class='bx bx-planet' ></i>
+            <i class='bx bx-planet central' ></i>
             <span class="link-name">Spacetime</span>
           </a>
-            <i class="bx bxs-chevron-down arrow"></i>
+            <i class="bx bxs-chevron-down arrow central"></i>
         </div>
         <ul class="sub-menu">
           <li><a href="#" class="selector stargazer" data-url="https://brightspace.carleton.ca/d2l/home" data-injection="armory/carleton-click.js"><span>Stargazer</span></a></li>
@@ -65,7 +119,7 @@
 
       <li class="test">
         <a href="#">
-          <i class="bx bx-pie-chart-alt-2"></i>
+          <i class="bx bx-pie-chart-alt-2 central"></i>
           <span class="link-name" id="analytics">Analytics</span>
         </a>
         <ul class="sub-menu blank">
@@ -77,10 +131,10 @@
       <li class="test">
         <div class="node" id="plugins">
           <a href="#">
-            <i class="bx bx-plug"></i>
+            <i class="bx bx-plug central"></i>
             <span class="link-name">Plugins</span>
           </a>
-            <i class="bx bxs-chevron-down arrow"></i>
+            <i class="bx bxs-chevron-down arrow central"></i>
         </div>
         <ul class="sub-menu">
           <li><a href="#" class="selector in-your-face"><span>In Your Face</span></a></li>
@@ -92,7 +146,7 @@
       <li class="test">
         <div class="node static" id="settings" data-url="">
           <a href="#">
-            <i class="bx bx-cog"></i>
+            <i class="bx bx-cog central"></i>
             <span class="link-name">Settings</span>
           </a>
           <ul class="sub-menu blank">
@@ -110,7 +164,7 @@
             <div class="profile-name">yawndeer</div>
             <div class="profile-title">what am I</div>
           </div>
-          <i class="bx bx-log-out"></i>
+          <i class="bx bx-log-out central"></i>
         </div>
       </li>
 
@@ -134,6 +188,86 @@
         </div>
       </div>
     </ul>
+
+    <!-- Dark screen overlay -->
+    <div class="dark-screen hidden"></div>
+
+    <!-- Configuration overlay -->
+    <div class="timetable config-overlay hidden">
+      <div class="config-header">
+        <h3>Select Term</h3>
+        <i class='bx bx-x timetable close-btn'></i>
+      </div>
+      <div class="timetable config-content">
+        <!-- Add your configuration options here -->
+        <!-- Add your configuration options here -->
+        <label for="school">School:</label>
+        <select id="school-select" name="school" class="select-school">
+          <option value="carleton">Carleton</option>
+          <option value="ottawa">Ottawa</option>
+          <option value="waterloo">Waterloo</option>
+          <!-- Add more options as needed -->
+        </select>
+
+        <label for="semester">Semester:</label>
+        <select id="semester-select" name="semester">
+          <option value="10">Winter</option>
+          <option value="20">Summer</option>
+          <option value="30">Fall</option>
+        </select>
+
+        <label for="year">Year:</label>
+        <select id="year-select" name="year">
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+      <div class="config-footer">
+        <div class="term-reset-btn config-reset-btn"><span>Reset</span></div>
+        <div class="term-save-btn config-save-btn"><span>Save</span></div>
+        <div class="term-admin-btn config-admin-btn"><span>Admin Commands</span></div>
+      </div>
+    </div>
+
+    <!-- Configuration overlay -->
+    <div class="human-benchmark reaction-time config-overlay hidden">
+      <!-- Header -->
+      <div class="config-header">
+        <h3>Set Response Time</h3>
+        <i class='bx bx-x human-benchmark reaction-time close-btn'></i>
+      </div>
+      <!-- Config -->
+      <div class="human-benchmark reaction-time config-content">
+        <!-- Add your configuration options here -->
+        <div class="reaction-input">
+          <input type="range" min="1" max="500" value="200" class="slider-reaction-time" id="reaction-time-goal">
+          <div>
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="slider-textbox"id="reaction-time-input" name="reaction-time-goal">
+            <span>ms</span>
+          </div>
+        </div>
+        <div class="reaction-range-input">
+          <span class="optional-span-text">Range (optional): +/-</span>
+          <div>
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="slider-textbox" id="reaction-range-input" name="reaction-time-range">
+            <span>ms</span>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="reaction-time config-footer">
+        <div class="reaction-reset-btn config-reset-btn"><span>Reset</span></div>
+        <div class="reaction-save-btn config-save-btn"><span>Save</span></div>
+        <div class="reaction-admin-btn config-admin-btn"><span>Admin Commands</span></div>
+      </div>
+    </div>
     
   </div>
 </body>

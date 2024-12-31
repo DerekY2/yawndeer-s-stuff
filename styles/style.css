@@ -166,7 +166,7 @@ body {
   transition: all 0.4s ease;
 }
 
-.panel .nav-links li i{
+.panel .nav-links li i.central{
   height: 50px;
   min-width: 70px;
   text-align: center;
@@ -215,9 +215,16 @@ body {
   cursor: pointer;
 }
 
+
+
 .panel .nav-links li .sub-menu a span{
   cursor: pointer;
 }
+
+.panel .nav-links li .sub-menu a::after{
+  display: none;
+}
+
 
 .panel .nav-links li .sub-menu a::before {
   content: "";
@@ -241,18 +248,48 @@ body {
   z-index: -1; 
 } */
 
+.panel .nav-links li .sub-menu a{
+  flex-grow: 1;
+  padding-right: 20px;
+  justify-content: space-between;
+}
+
+/* More specific selector for carleton-button */
+.panel .nav-links li .sub-menu a .config-btn{
+  visibility: visible;
+  font-size: 18px; /* Match the font size of the text */
+  color: #fff;
+  opacity: 0.65;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  flex-shrink: 0; /* Prevent the icon from growing */
+}
+
+/* More specific selector for carleton-button */
+.panel .nav-links li .sub-menu a .config-btn:hover{
+  transform: scale(1.25);
+  color: #acc0fc;
+  opacity: 1;
+}
+
+.panel .nav-links li .sub-menu a .config-btn:active {
+  transform: scale(1.1);
+}
+
+.panel .nav-links li .sub-menu a:not(:hover) .config-btn {
+  visibility: hidden; /* Hide the config-btn when the parent <a> is not hovered */
+}
+
 .panel .nav-links li .sub-menu a:hover{
   opacity: 1;
-  
-  background: #5e54b8;
-
+  background: linear-gradient(to right, #5e54b8, rgba(126, 117, 230, 0)); /* Add gradient on hover */
   transform: scale(1.05);
 }
 
-.panel .nav-links li .sub-menu a:active{
+.panel .nav-links li .sub-menu a:active:not(:has(*:hover)){
   transition: all 0.04s ease;
-  background: #7e75e6;
-  transform: scale(1.08);
+  background: linear-gradient(to right, #7e75e6, rgba(126, 117, 230, 0)); /* Add gradient on hover */
+  transform: scale(1.02);
 }
 
 
@@ -365,3 +402,280 @@ body {
   margin-bottom: 5px;
   font-size: 14px;
 }
+
+.dark-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+  z-index: 999; /* Ensure it is behind the config-overlay */
+}
+
+.config-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: #2d274a;
+  color: #fff;
+  border-radius: 10px;
+  border-color: #858585;
+  border-style: hidden;
+  border-width: thin;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 5px;
+}
+
+.config-header{
+  display: flex;
+  flex-direction: row; /* Arrange items in a row */
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.close-btn{
+  font-size: 24px; /* Match the font size of the text */
+  opacity: 0.85;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  color: red;
+}
+
+/* More specific selector for carleton-button */
+.config-header .close-btn:hover{
+  transform: scale(1.25);
+  opacity: 1;
+}
+
+.config-header .close-btn:active {
+  transform: scale(1.1);
+}
+
+.config-content {
+  display: flex;
+  flex-direction: row; /* Arrange items in a row */
+  justify-content: space-between; /* Distribute space between items */
+  align-items: center;
+  gap: 10px; /* Add space between dropdowns */
+}
+
+.config-content label {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  display: none;
+}
+
+.config-content select {
+  width: 100%;
+  padding: 3px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #2d2759;
+  color: #fff;
+}
+
+.config-content select .school-select{
+  min-width: 100px;
+}
+
+.config-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  padding-top: 10px;
+}
+
+.config-footer .config-reset-btn{
+  background: transparent;
+  color: #fff;
+  width: 50px;
+  border: none;
+  border-color: #c0c0c0;
+  border-width: 2px;
+  border-radius: 15px;
+  cursor: default;
+  transition: all 0.3s ease;
+  min-height: min-content;
+  text-align: center; /* Center text horizontally */
+  display: flex; /* Use flexbox for vertical centering */
+  align-items: center; /* Center items vertically */
+  font-size: 14px;
+  justify-content: center; /* Center items horizontally */
+}
+
+.config-footer .config-reset-btn span{
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.config-footer .config-reset-btn span:hover{
+  transform: scale(1.1);
+  color: rgb(255, 255, 110);
+  text-decoration: underline;
+  transition: all 0.1s ease;
+}
+
+.config-footer .config-reset-btn span:active{
+  transform: scale(1.15);
+  color: rgb(255, 255, 174);
+  text-decoration: underline;
+}
+
+.config-footer .config-admin-btn{
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  width: 50px;
+  border: solid;
+  border-color: #c0c0c0;
+  border-width: 2px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: min-content;
+  text-align: center; /* Center text horizontally */
+  display: flex; /* Use flexbox for vertical centering */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  visibility: hidden;
+}
+
+.config-footer .config-save-btn {
+  padding: 8px 15px;
+  height: min-content;
+  background-color: #1d1f52;
+  color: #fff;
+  border: solid;
+  border-color: #c0c0c0;
+  border-width: 2px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center; /* Center text horizontally */
+  display: flex; /* Use flexbox for vertical centering */
+  align-items: center; /* Center items vertically */
+  font-size: 14px;
+  justify-content: center; /* Center items horizontally */
+}
+
+.config-footer .config-save-btn:hover {
+  background-color: #333181;
+  transform: scale(1.1);
+}
+
+.config-footer .config-save-btn:active {
+  background-color: #43408e;
+  transition: all 0.1s ease;
+  transform: scale(1.15);
+}
+
+.reaction-time .config-content{
+  display: flex;
+  flex-direction: column;
+}
+
+.reaction-time .config-footer{
+  padding-top: 15px;
+}
+
+.reaction-input{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+}
+
+.slider-reaction-time{
+  width: 8.2rem;
+  height: 12px;
+  border-radius: 5px;  
+  box-shadow: 0 1px 10px 1px black;
+  background: linear-gradient(90deg,rgb(105, 67, 255) 60% rgb(99, 99, 99) 60%);
+  outline: none;
+  opacity: 1;
+  -webkit-transition: .2s;
+  transition: all .2s ease;
+  appearance: none; /* Standard property */
+  -webkit-appearance: none; /* WebKit browsers */
+  -moz-appearance: none; /* Mozilla browsers */
+}
+
+.slider-reaction-time:hover {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.slider-reaction-time::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none; 
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.slider-reaction-time::-webkit-slider-thumb:hover {
+  opacity: 1;
+  transform: scale(1.07);
+}
+
+.slider-reaction-time::-webkit-slider-thumb:active {
+  opacity: 1;
+  /* background: #ffee00; */
+  transform: scale(1.2);
+}
+
+.slider-reaction-time::-moz-range-thumb {
+  -moz-appearance: none;
+  appearance: none; /* Standard property */
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #585858;
+  cursor: pointer;
+}
+
+.slider-reaction-time::-moz-range-thumb:hover {
+  opacity: 1;
+  transform: scale(1.07);
+}
+
+.slider-reaction-time::-moz-range-thumb:active {
+  opacity: 1;
+  /* background: #ffee00; */
+  transform: scale(1.2);
+}
+
+
+.reaction-time .slider-textbox {
+  color: #fff;
+  width: 3rem; /* Adjust width based on content */
+  padding: 0; /* Optional: Add padding if needed */
+  margin: 0; /* Optional: Reset margin */
+  border: thin solid #ccc; /* Optional: Add border */
+  border-radius: 5px; /* Optional: Add border radius */
+  text-align: center; /* Center text horizontally */
+  background: #454545;
+}
+
+.reaction-range-input{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+}
+
+.reaction-range-input .optional-span-text{
+  width: 8.2rem;
+}
+
