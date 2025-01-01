@@ -7,14 +7,14 @@
   
   "short_name": "Sparkling H2O2",
 
-  "version": "0.1.4.0",
+  "version": "0.1.7.0",
   
   "description": "Collection of projects",
 
   
   "icons": {
-    "48": "images/Sparkle_Doll.png",
-    "128": "images/Sparkle_Doll.png"
+    "48": "images/pull-shark.png",
+    "128": "images/pull-shark.png"
   },
 
   "permissions": ["scripting", "storage"],
@@ -27,7 +27,7 @@
 
   "action": {
     "default_title": "Sparkling H2O2",
-    "default_icon": "images/Sparkle_Doll.png",
+    "default_icon": "images/pull-shark.png",
     "default_popup": "popup.html"
   },
 
