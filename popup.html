@@ -18,8 +18,8 @@
       </a>
     </div>
     <div class="logo-details">
-      <img class="logo-image"src="images/Sparkle_Doll.png" alt="Sparkle_Doll">
-      <span class="logo-name">yawndeer's stuff</span>
+      <img class="logo-image" id="popup-logo-img1" src="images/Sparkle_Doll.png" alt="Sparkle_Doll">
+      <span class="logo-name">Sparkling H2O2</span>
     </div>
     <ul class="nav-links">
       <li class="test">
@@ -45,7 +45,7 @@
         </div>
         <ul class="sub-menu">
           <li>
-            <a href="#" class="selector carleton" data-url="https://central.carleton.ca/prod/bwskfshd.P_CrseSchd" data-injection="armory/carleton-timetables.js">
+            <a href="#" class="selector carleton require-opened" data-url="https://central.carleton.ca/prod/bwskfshd.P_CrseSchdDetl" data-injection="armory/carleton-timetables.js">
               <span>Carleton</span>
               <div class="config-btn" data-school="carleton" data-sub="timetable-tool">
                 <i class="bx bx-cog"></i>
@@ -86,7 +86,7 @@
           <li>
             <a href="#" class="selector reaction-time" data-url="https://humanbenchmark.com/tests/reactiontime/" data-injection="armory/reaction-time.js">
               <span>Reaction Time</span>
-              <div class="config-btn" data-node="human-benchmark" data-sub="reaction-time-bool">
+              <div class="config-btn" data-node="human-benchmark" data-sub="reaction-time">
                 <i class="bx bx-cog"></i>
               </div>
             </a>
@@ -168,13 +168,21 @@
         </div>
       </li>
 
-
-      <div class="pls-donate-ahh">
-        <a target="_blank" href="https://www.buymeacoffee.com/yawndeer">
-          <img src="images/coffee-small.png" >
+      <div class="socials">
+        <a class="github-link social-icon" href="https://github.com/DerekY2" target="_blank">
+          <i class='bx bxl-github' style='color:#ffffff' ></i>
         </a>
+        <a href="https://www.linkedin.com/in/derek-yu-53273130b/" class="linkedin-link social-icon" target="_blank">
+          <i class='bx bxl-linkedin-square' style='color:#ffffff' ></i>
+        </a>
+        <a class="social-icon" target="_blank" href="https://www.buymeacoffee.com/yawndeer">
+          <i class='bx bx-coffee-togo' style='color:#ffffff' ></i>
+        </a>
+        <div class="social-icon" href="">
+          <!-- alternate - bx-color -->
+          <i class='bx bxs-color change-logo-btn' style='color:#ffffff' ></i>
+        </div>
       </div>
-
       <div class="version-details">
         <span class="show-version-details" data-url="https://dereky2.github.io/sparkle-shenanigans/">v0.1.3</span>
         <div class="whats-new test">
@@ -192,6 +200,9 @@
     <!-- Dark screen overlay -->
     <div class="dark-screen hidden"></div>
 
+    <!-- Notification banner screen overlay -->
+    <div class="banner-screen hidden"></div>
+
     <!-- Configuration overlay -->
     <div class="timetable config-overlay hidden">
       <div class="config-header">
@@ -201,7 +212,6 @@
       <div class="timetable config-content">
         <!-- Add your configuration options here -->
         <!-- Add your configuration options here -->
-        <label for="school">School:</label>
         <select id="school-select" name="school" class="select-school">
           <option value="carleton">Carleton</option>
           <option value="ottawa">Ottawa</option>
@@ -209,14 +219,11 @@
           <!-- Add more options as needed -->
         </select>
 
-        <label for="semester">Semester:</label>
         <select id="semester-select" name="semester">
           <option value="10">Winter</option>
           <option value="20">Summer</option>
           <option value="30">Fall</option>
         </select>
-
-        <label for="year">Year:</label>
         <select id="year-select" name="year">
           <option value="2025">2025</option>
           <option value="2024">2024</option>
@@ -235,34 +242,9 @@
         <div class="term-admin-btn config-admin-btn"><span>Admin Commands</span></div>
       </div>
     </div>
-
-    <!-- Configuration overlay -->
-    <div class="human-benchmark reaction-time bool config-overlay hidden">
-      <!-- Header -->
-      <div class="config-header">
-        <h3>Set Response Time</h3>
-        <i class='bx bx-x human-benchmark reaction-time-bool close-btn'></i>
-      </div>
-      <!-- Config -->
-      <div class="human-benchmark reaction-time config-content">
-        <!-- Add your configuration options here -->
-        <div class="row-input">
-          <div class="slider-min">Fast (~200ms)</div>
-          <input type="range" min="1" max="100" value="1" class="slider-reaction-time slider" id="reaction-time-bool">
-          <div class="slider-max">A Little Faster (~3ms)</div>
-        </div>
-      </div>
-      <!-- Footer -->
-      <div class="reaction-time config-footer">
-        <div class="reaction-bool-reset-btn config-reset-btn"><span>Reset</span></div>
-        <div class="reaction-bool-save-btn config-save-btn"><span>Save</span></div>
-        <div class="reaction-bool-admin-btn config-admin-btn"><span>Admin Commands</span></div>
-      </div>
-    </div>
-
     
     <!-- Configuration overlay -->
-    <div class="human-benchmark reaction-time-test config-overlay test">
+    <div class="human-benchmark reaction-time config-overlay hidden">
       <!-- Header -->
       <div class="config-header">
         <h3>Set Response Time</h3>
@@ -279,7 +261,7 @@
           </div>
         </div>
         <div class="reaction-range-input row-input">
-          <span class="optional-span-text">Range (optional): +/-</span>
+          <span class="optional-span-text">Range (varies): +/-</span>
           <div>
             <input type="text" inputmode="numeric" pattern="[0-9]*" class="slider-textbox" id="reaction-range-input" name="reaction-time-range">
             <span>ms</span>
@@ -290,7 +272,7 @@
       <div class="reaction-time config-footer">
         <div class="reaction-reset-btn config-reset-btn"><span>Reset</span></div>
         <div class="reaction-save-btn config-save-btn"><span>Save</span></div>
-        <div class="reaction-admin-btn config-admin-btn"><span>Admin Commands</span></div>
+        <div class="reaction-admin-btn config-admin-btn"><i class='bx bx-run'></i></div>
       </div>
     </div>
 
@@ -298,16 +280,38 @@
     <div class="human-benchmark chimp-test config-overlay hidden">
       <!-- Header -->
       <div class="config-header">
-        <h3>Set Click Interval</h3>
+        <h3>Chimp Test Settings</h3>
         <i class='bx bx-x human-benchmark chimp-test close-btn'></i>
       </div>
       <!-- Config -->
       <div class="human-benchmark chimp-test config-content">
         <!-- Add your configuration options here -->
+        <h3>Click Interval</h3>
         <div class="chimp-input">
-          <input type="range" min="1" max="500" value="200" class="slider-chimp-test slider" id="chimp-test-goal">
+          <input type="range" min="1" max="50" value="15" class="slider-chimp-test slider" id="chimp-test-goal">
           <input type="text" inputmode="numeric" pattern="[0-9]*" class="slider-textbox"id="chimp-test-input" name="chimp-test-goal">
           <span>ms</span>
+        </div>
+        <!-- Add your configuration options here -->
+        <h3>Target Score</h3>
+        <div class="chimp-input">
+          <input type="range" min="5" max="41" value="41" class="slider-chimp-test slider" id="chimp-test-score">
+          <input type="text" inputmode="numeric" pattern="[0-9]*" class="slider-textbox"id="chimp-test-score-input" name="chimp-test-score">
+          <span>pts</span>
+        </div>
+        <div class="test">
+          <div class="input-header">
+            <h3>Activation</h3>
+            <i class='bx bx-info-circle info-btn' data-info=".chimp-activation-info" ></i>
+          </div>
+          <div class="chimp-input">
+            <div class="switch-container">
+              <span class="left-span">Semi Auto</span>
+                <input type="checkbox" id="wait-for-first-click" />
+                <label for="wait-for-first-click" class="toggle-switch"></label>
+              <span>Full Auto</span>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Footer -->
@@ -315,6 +319,34 @@
         <div class="chimp-reset-btn config-reset-btn"><span>Reset</span></div>
         <div class="chimp-save-btn config-save-btn"><span>Save</span></div>
         <div class="chimp-admin-btn config-admin-btn"><span>Admin Commands</span></div>
+      </div>
+    </div>
+
+    <div class="banner-overlay hidden">
+      <div class="banner-header">
+        <h3 class="banner-title warning timetravel-warning hidden">ERROR: Timetravel permissions not found...</h3>
+        <h3 class="banner-title warning timetravel-zero-warning hidden">ERROR: Timetravel permissions not found...</h3>
+        <h3 class="banner-title warning large-input-warning hidden">Not so slow...</h3>
+        <h3 class="banner-title warning small-ping-warning hidden">Not so fast...</h3>
+        <h3 class="banner-title warning chaos-ping-warning hidden">Not so fast...</h3>
+        <h3 class="banner-title chimp-activation-info hidden">Activation</h3>
+        <h3 class="banner-title warning chimp-range-warning hidden">Target score out of bounds</h3>
+        
+      </div>
+      <div class="banner-content">
+        <span class="banner-msg banner-placeholder">erm</span>
+        <p class="banner-msg timetravel-warning hidden">Reaction time must be <span class='highlight'>positive</span>.</p>
+        <p class="banner-msg chimp-range-warning hidden">The target score must be in range [<span class='highlight'>5</span>, <span class='highlight'>41</span>].</p>
+        <p class="banner-msg timetravel-zero-warning hidden">Interval must be <span class='highlight'>>=0</span>.</p>
+        <p class="banner-msg chimp-activation-info hidden"><span class="highlight2">Semi Auto:</span><br><span class="highlight">Manually click the first square</span> each wave to trigger auto-completion.<br><br><span class="highlight2">Full Auto:</span><br>The script <span class="highlight">auto-completes every wave</span>.</p>
+        <p class="banner-msg large-input-warning hidden">Input must be less than <span class='highlight'>1,000,000,000,000</span>ms.</p>
+        <p class="banner-msg small-ping-warning hidden">Reaction times are never 100% accurate, and may vary from one device to another.<br><br>Absolute minimum value of +/-<span class='highlight'>1</span>ms.</p>
+        <p class="banner-msg chaos-ping-warning hidden">Longer reaction times are inconsistent, and result in higher latency.<br><br>Minimum value of +/-<span class='highlight'>10</span>ms.</p>
+      </div>
+      <div class="banner-footer">
+        <div class="banner-reset-btn"><span>Reset</span></div>
+        <div class="banner-admin-btn"><span>Admin Commands</span></div>
+        <div class="banner-ok-btn"><span>Oh ok</span></div>
       </div>
     </div>
     

@@ -2,6 +2,7 @@ const nodes = document.querySelectorAll(".node");
 const staticNodes = document.querySelectorAll(".node.static.config");
 const nodeSelectors = document.querySelectorAll(".selector");
 const configBtns = document.querySelectorAll(".config-btn")
+const infoBtns = document.querySelectorAll('.info-btn')
 const allOverlays = document.querySelectorAll('.config-overlay')
 const darkScreen = document.querySelector(".dark-screen");
 const timetableOverlay = document.querySelector(".timetable.config-overlay");
@@ -13,23 +14,30 @@ const schoolSelect = document.getElementById("school-select");
 const semesterSelect = document.getElementById("semester-select");
 const yearSelect = document.getElementById("year-select");
 const reactionSlider = document.getElementById("reaction-time-goal")
-const reactionBoolSlider = document.getElementById('reaction-time-bool')
 const reactionInput = document.getElementById("reaction-time-input")
 const reactionRangeInput = document.getElementById("reaction-range-input")
 const reactionOverlay = document.querySelector(".reaction-time.config-overlay");
-const reactionBoolOverlay = document.querySelector(".reaction-time.bool.config-overlay");
-const reactionBoolCloseBtn = document.querySelector(".reaction-time-bool.close-btn");
 const reactionCloseBtn = document.querySelector(".reaction-time.close-btn");
-const reactionBoolSaveBtn = document.querySelector('.reaction-bool-save-btn')
+const reactionFastBtn = document.querySelector('.reaction-admin-btn')
 const reactionSaveBtn = document.querySelector('.reaction-save-btn')
-const reactionBoolResetBtn = document.querySelector('.reaction-bool-reset-btn')
 const reactionResetBtn = document.querySelector('.reaction-reset-btn')
-const chimpSlider = document.getElementById("chimp-test-goal")
-const chimpInput = document.getElementById("chimp-test-input")
+const chimpIntervalSlider = document.getElementById("chimp-test-goal")
+const chimpScoreSlider = document.getElementById('chimp-test-score')
+const chimpIntervalInput = document.getElementById("chimp-test-input")
+const chimpScoreInput = document.getElementById('chimp-test-score-input')
 const chimpOverlay = document.querySelector(".chimp-test.config-overlay");
 const chimpCloseBtn = document.querySelector(".chimp-test.close-btn");
 const chimpSaveBtn = document.querySelector('.chimp-save-btn')
 const chimpResetBtn = document.querySelector('.chimp-reset-btn')
+const chimpAutoSwitch = document.querySelector('#wait-for-first-click')
+const bannerOverlay = document.querySelector('.banner-overlay')
+const bannerHeader = document.querySelector('.banner-header')
+const bannerContent = document.querySelector('.banner-content')
+const bannerOkBtn = document.querySelector('.banner-ok-btn')
+const bannerCloseBtn = document.querySelector('.banner.close-btn')
+const bannerScreen = document.querySelector(".banner-screen");
+const popupLogo = document.getElementById("popup-logo-img1")
+const changePopupBtn = document.querySelector('.change-logo-btn')
 
 // click listener & menu toggle - nodes
 nodes.forEach(node => {
@@ -57,9 +65,23 @@ nodeSelectors.forEach(selector =>{
       return;
     }
     e.preventDefault
-    inject(selector.dataset.injection, selector.dataset.url)
+    if(!selector.classList.contains('require-opened')){
+      inject(selector.dataset.injection, selector.dataset.url)
+    }else{inject(selector.dataset.injection, selector.dataset.url,true)}
   })
 })
+
+popupLogo.addEventListener('click',()=>{
+  changeLogo()
+  refreshLogo()
+})
+
+changePopupBtn.addEventListener('click',()=>{
+  changeLogo()
+  refreshLogo()
+})
+
+
 
 configBtns.forEach(btn => {
   btn.addEventListener("click", (e) => {
@@ -71,6 +93,15 @@ configBtns.forEach(btn => {
     openOverlay(configNode, btn)
   });
 });
+
+infoBtns.forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.preventDefault()
+    e.stopPropagation()
+    console.log(e,'pressed')
+    notify(btn.dataset.info)
+  })
+})
 
 // Add event listeners for dropdown changes
 schoolSelect.addEventListener("change", (e) => {
@@ -88,11 +119,6 @@ reactionCloseBtn.addEventListener('click',()=>{
   darkScreen.classList.add("hidden");
 })
 
-reactionBoolCloseBtn.addEventListener('click',()=>{
-  reactionBoolOverlay.classList.add('hidden')
-  darkScreen.classList.add("hidden");
-})
-
 chimpCloseBtn.addEventListener('click',()=>{
   chimpOverlay.classList.add('hidden')
   darkScreen.classList.add("hidden");
@@ -107,39 +133,80 @@ termSaveBtn.addEventListener("click", () => {
 });
 
 reactionSaveBtn.addEventListener('click',()=>{
+  var err=false
   console.log('Reaction save button click');
   if(reactionInput.value<=0){
     reactionInput.value=1
+    notify('.timetravel-warning')
+    err=true
   }else if(reactionInput.value>=1000000000000){
     reactionInput.value=999999999999
+    notify('.large-input-warning')
+    err=true
   }
-  if(reactionRangeInput.value<=0){
-    reactionRangeInput.value=1
-  }else if(reactionRangeInput.value>=1000000000000){
+  else if(reactionRangeInput.value>=1000000000000){
     reactionRangeInput.value=999999999999
+    notify('.large-input-warning')
+    err=true
   }
-  setLocal('reaction-time',[reactionInput.value,reactionRangeInput.value])
-  reactionOverlay.classList.add("hidden");
-  darkScreen.classList.add("hidden");
-})
-
-reactionBoolSaveBtn.addEventListener('click',()=>{
-  console.log('Reaction bool save button click');
-  setLocal('reaction-time-bool',reactionBoolSlider.value)
-  reactionBoolOverlay.classList.add("hidden");
-  darkScreen.classList.add("hidden");
+  else if(reactionInput.value>50 && reactionRangeInput.value<10){
+    reactionRangeInput.value=10
+    notify('.chaos-ping-warning')
+    err=true
+  }
+  else if(reactionRangeInput.value<=0){
+    reactionRangeInput.value=1
+    notify('.small-ping-warning')
+    err=true
+  }
+  if(!err){
+    setLocal('reaction-time',[parseInt(reactionInput.value,10),parseInt(reactionRangeInput.value)])
+    reactionOverlay.classList.add("hidden");
+    darkScreen.classList.add("hidden");
+  }
 })
 
 chimpSaveBtn.addEventListener('click',()=>{
+  var err=false;
   console.log('Chimp save button click');
-  if(chimpInput.value<=0){
-    chimpInput.value=1
-  }else if(chimpInput.value>=1000000000000){
-    chimpInput.value=999999999999
+  if(chimpIntervalInput.value<0){
+    chimpIntervalInput.value=0
+    notify('.timetravel-zero-warning')
+    err=true;
+  }else if(chimpIntervalInput.value>=1000000000000){
+    chimpIntervalInput.value=999999999999
+    notify('.large-input-warning')
+    err=true;
   }
-  setLocal('chimp-test',chimpInput.value)
-  chimpOverlay.classList.add("hidden");
-  darkScreen.classList.add("hidden");
+  if(chimpScoreInput.value<5){
+    chimpScoreInput.value=5
+    notify('.chimp-range-warning')
+    err=true;
+  }else if(chimpScoreInput.value>41){
+    chimpScoreInput.value=41
+    notify('.chimp-range-warning')
+    err=true;
+  }
+  if(!err){
+    setLocal('chimp-test',[parseInt(chimpIntervalInput.value), parseInt(chimpScoreInput.value), chimpAutoSwitch.checked])
+    chimpOverlay.classList.add("hidden");
+    darkScreen.classList.add("hidden");
+  }
+})
+
+bannerOkBtn.addEventListener('click',()=>{
+  console.log('Banner ok button click');
+  bannerOverlay.classList.add("hidden");
+  bannerScreen.classList.add("hidden");
+  bannerContent.querySelector('.banner-placeholder').classList.remove('hidden')
+  const helem=bannerHeader.querySelector('.notif-header')
+  const pelem = bannerContent.querySelector('.notif-content')
+  helem?helem.remove():console.log('no banner title found')
+  pelem?pelem.remove():console.log('no banner content found')
+})
+
+reactionFastBtn.addEventListener('click',()=>{
+  refreshReactionTime('Fast mode',false,true)
 })
 
 termResetBtn.addEventListener('click',()=>{
@@ -147,15 +214,11 @@ termResetBtn.addEventListener('click',()=>{
 })
 
 reactionResetBtn.addEventListener('click',()=>{
-  refreshReactionTime("The government again",true)
-})
-
-reactionBoolResetBtn.addEventListener('click',()=>{
-  refreshReactionBool("The government again",true)
+  refreshReactionTime("The government again",false)
 })
 
 chimpResetBtn.addEventListener('click',()=>{
-  refreshChimpTest("The government again and again",true)
+  refreshChimpTest("The government again and again and again",true)
 })
 
 // Close the overlay when clicking outside of it
@@ -166,23 +229,15 @@ darkScreen.addEventListener("click", () => {
   darkScreen.classList.add("hidden");
 });
 
+bannerScreen.addEventListener("click", (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+  console.log('you shall not pass')
+});
+
 reactionSlider.addEventListener('mousemove',()=>{
   let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+reactionSlider.value/5+'%, rgb(99, 99, 99)'+reactionSlider.value/5+'%')
   reactionSlider.style.background = color
-})
-
-reactionBoolSlider.addEventListener('change',()=>{
-  if(reactionBoolSlider.value>=50) {
-    reactionBoolSlider.value=100
-    let color = 'rgb(105, 67, 255)'
-    reactionBoolSlider.style.background = color
-  }
-  else if(reactionBoolSlider.value<50){
-    reactionBoolSlider.value=1
-    let color = 'rgb(99, 99, 99)'
-    reactionBoolSlider.style.background = color
-  }
-  console.log('reacitonBoolSlider:',reactionBoolSlider.value)
 })
 
 reactionSlider.addEventListener('change',()=>{
@@ -203,22 +258,44 @@ reactionRangeInput.addEventListener('input',(e)=>{
   input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
 })
 
-chimpSlider.addEventListener('mousemove',()=>{
-  let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+chimpSlider.value/5+'%, rgb(99, 99, 99)'+chimpSlider.value/5+'%')
-  chimpSlider.style.background = color
+chimpIntervalSlider.addEventListener('mousemove',()=>{
+  let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+chimpIntervalSlider.value*2+'%, rgb(99, 99, 99)'+chimpIntervalSlider.value*2+'%')
+  chimpIntervalSlider.style.background = color
 })
 
-chimpSlider.addEventListener('change', ()=>{
-  chimpInput.value = chimpSlider.value;
+chimpIntervalSlider.addEventListener('change', ()=>{
+  chimpIntervalInput.value = chimpIntervalSlider.value;
 })
 
-chimpInput.addEventListener('input',(e)=>{
+chimpScoreSlider.addEventListener('mousemove',()=>{
+  let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+mapValue(chimpScoreSlider.value,5,41)+'%, rgb(99, 99, 99)'+mapValue(chimpScoreSlider.value,5,41)+'%')
+  chimpScoreSlider.style.background = color
+})
+
+chimpScoreSlider.addEventListener('change', ()=>{
+  chimpScoreInput.value = chimpScoreSlider.value;
+})
+
+function mapValue(value, inMin, inMax, outMin=0, outMax=100) {
+  return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+
+chimpIntervalInput.addEventListener('input',(e)=>{
   let input = e.target;
   input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-  chimpSlider.value = chimpInput.value;
-  let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+chimpSlider.value/5+'%, rgb(99, 99, 99)'+chimpSlider.value/5+'%')
-  chimpSlider.style.background = color
-  console.log('updated chimpSlider')
+  chimpIntervalSlider.value = chimpIntervalInput.value;
+  let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+chimpIntervalSlider.value*2+'%, rgb(99, 99, 99)'+chimpIntervalSlider.value*2+'%')
+  chimpIntervalSlider.style.background = color
+  console.log('updated chimpIntervalSlider')
+})
+
+chimpScoreInput.addEventListener('input',(e)=>{
+  let input = e.target;
+  input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+  chimpScoreSlider.value = chimpScoreInput.value;
+  let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+mapValue(chimpScoreSlider.value,5,41)+'%, rgb(99, 99, 99)'+mapValue(chimpScoreSlider.value,5,41)+'%')
+  chimpScoreSlider.style.background = color
+  console.log('updated chimpIntervalSlider')
 })
 
 // listener - open updates.html when clicked
@@ -227,28 +304,38 @@ showUpdates.addEventListener('click',(e)=>{
   window.close()
 })
 
-function inject(file, request_url){
+function inject(file, request_url, checkOpen=false){
   if(file){
-  var targetTab
-    chrome.tabs.query({'url':request_url}, tabs => {
-      if(tabs && tabs.length>0){
-        chrome.tabs.update(tabs[tabs.length-1].id, {active: true})
-        targetTab = tabs[tabs.length-1].id
-        chrome.scripting.executeScript({
-          target: {tabId: targetTab},
-          files: [file]
-        })
-      }
-      else{
-        chrome.tabs.create({url: request_url}, tab =>{
-          targetTab = tab.id
+    var targetTab
+    if(checkOpen){
+      chrome.tabs.query({'url':request_url}, tabs => {
+        if(tabs && tabs.length>0){
+          chrome.tabs.update(tabs[tabs.length-1].id, {active: true})
+          targetTab = tabs[tabs.length-1].id
           chrome.scripting.executeScript({
             target: {tabId: targetTab},
             files: [file]
           })
+        }
+        else{
+          chrome.tabs.create({url: request_url}, tab =>{
+            targetTab = tab.id
+            chrome.scripting.executeScript({
+              target: {tabId: targetTab},
+              files: [file]
+            })
+          })
+        }
+      })
+    }else if(!checkOpen){
+      chrome.tabs.create({url: request_url}, tab =>{
+        targetTab = tab.id
+        chrome.scripting.executeScript({
+          target: {tabId: targetTab},
+          files: [file]
         })
-      }
-    })
+      })
+    }
   }
 }
 
@@ -302,7 +389,7 @@ function refreshTerm(key,useDefault=false){
     chrome.storage.local.get([key], (r)=>{
       let result = r[key]
       console.log('getting:',key+':',result)
-      if(result && (result[0]&&result[1])){
+      if(result){
         console.log('found - ',key+':','semester:',result[0],'year:',result[1])
         semesterSelect.value = result[0]
         yearSelect.value = result[1]
@@ -325,12 +412,12 @@ function refreshTerm(key,useDefault=false){
   }
 }
 
-function refreshReactionTime(key, useDefault=false){
-  if(!useDefault){
+function refreshReactionTime(key, useDefault=false,fast=false){
+  if(!useDefault&&!fast){
     chrome.storage.local.get([key], (r)=>{
       let result = r[key]
       console.log('getting:',key+':',result)
-      if(result && (result[0]&&result[1])){
+      if(result){
         console.log('found - ',key+':','reaction time:',result[0],'range:',result[1])
         reactionInput.value = result[0]
         reactionSlider.value = reactionInput.value
@@ -351,7 +438,7 @@ function refreshReactionTime(key, useDefault=false){
     })
   }else if(useDefault){
     let defaultTimes = [20,1]
-    console.log('key not found, using default:',defaultTimes)
+    console.log('Fast mode requested:',defaultTimes)
     reactionInput.value = defaultTimes[0]
     reactionSlider.value = reactionInput.value
     reactionRangeInput.value = defaultTimes[1]
@@ -359,52 +446,17 @@ function refreshReactionTime(key, useDefault=false){
     let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+reactionSlider.value/5+'%, rgb(99, 99, 99)'+reactionSlider.value/5+'%')
     reactionSlider.style.background = color
     console.log('updated reactionSlider - ',reactionSlider.value/5)
-  }
-}
-
-function refreshReactionBool(key, useDefault=false){
-  if(!useDefault){
-    chrome.storage.local.get([key], (r)=>{
-      let result = r[key]
-      console.log('getting:',key+':',result)
-      if(result){
-        console.log('found - ',key+':','reaction bool speed:',result)
-        reactionBoolSlider.value = result
-        console.log('set reaction bool interval to: ',reactionBoolSlider.value)
-      }
-      else{
-        let defaultTimes = 1
-        console.log('key not found, using default:',defaultTimes)
-        reactionBoolSlider.value = defaultTimes
-        console.log('new term: ',[reactionBoolSlider.value])
-      }
-      if(reactionBoolSlider.value==1){
-        let color ='rgb(99, 99, 99)'
-        reactionBoolSlider.style.background = color
-        console.log('updated reactionBoolSlider')
-      }
-      else if(reactionBoolSlider.value==100){
-        let color = 'rgb(105, 67, 255)'
-        reactionBoolSlider.style.background = color
-        console.log('updated reactionBoolSlider')
-      }
-    })
-  }else if(useDefault){
-    let defaultTimes = 1
-    console.log('key not found, using default:',defaultTimes)
-    reactionBoolSlider.value = defaultTimes
-    console.log('new term: ',[reactionBoolSlider.value])
-    if(reactionBoolSlider.value==1){
-      let color ='rgb(99, 99, 99)'
-      reactionBoolSlider.style.background = color
-      console.log('updated reactionBoolSlider')
-    }
-    else if(reactionBoolSlider.value==100){
-      let color = 'rgb(105, 67, 255)'
-      reactionBoolSlider.style.background = color
-      console.log('updated reactionBoolSlider')
-    }
-    
+    return
+  }else if(fast){
+    let fastTimes = [1,1]
+    console.log('Fast mode requested:',fastTimes)
+    reactionInput.value = fastTimes[0]
+    reactionSlider.value = reactionInput.value
+    reactionRangeInput.value = fastTimes[1]
+    console.log('new term: ',[reactionSlider.value, reactionRangeInput.value])
+    let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+reactionSlider.value/5+'%, rgb(99, 99, 99)'+reactionSlider.value/5+'%')
+    reactionSlider.style.background = color
+    console.log('updated reactionSlider - ',reactionSlider.value/5)
   }
 }
 
@@ -415,30 +467,57 @@ function refreshChimpTest(key, useDefault=false){
       console.log('getting:',key+':',result)
       if(result){
         console.log('found - ',key+':','semester:',result,'year:',result)
-        chimpInput.value = result
-        chimpSlider.value = chimpInput.value
-        console.log('set chimp interval to: ',chimpInput.value)
+        chimpIntervalInput.value = result[0]
+        chimpScoreInput.value = result[1]
+        chimpAutoSwitch.checked=result[2]
+        chimpIntervalSlider.value = chimpIntervalInput.value
+        chimpScoreSlider.value = chimpScoreInput.value
+        console.log('set chimp interval to: ',chimpIntervalInput.value)
+        console.log('set chimp score to: ',chimpScoreInput.value)
       }
       else{
-        let defaultTimes = [15]
+        let defaultTimes = [15,41,true]
         console.log('key not found, using default:',defaultTimes)
-        chimpInput.value = defaultTimes
-        chimpSlider.value = chimpInput.value
-        console.log('new term: ',[chimpInput.value])
+        chimpIntervalInput.value = defaultTimes[0]
+        chimpScoreInput.value = defaultTimes[1]
+        chimpAutoSwitch.checked=defaultTimes[2]
+        chimpIntervalSlider.value = chimpIntervalInput.value
+        chimpScoreSlider.value = chimpScoreInput.value
+        console.log('set chimp interval to: ',chimpIntervalInput.value)
+        console.log('set chimp score to: ',chimpScoreInput.value)
       }
-      let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+chimpSlider.value/5+'%, rgb(99, 99, 99)'+chimpSlider.value/5+'%')
-      chimpSlider.style.background = color
-      console.log('updated chimpSlider')
+      let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+chimpIntervalSlider.value*2+'%, rgb(99, 99, 99)'+chimpIntervalSlider.value*2+'%')
+      chimpIntervalSlider.style.background = color
+      console.log('updated chimpIntervalSlider')
+      let color2 = ('linear-gradient(90deg, rgb(105, 67, 255)'+mapValue(chimpScoreSlider.value,5,41)+'%, rgb(99, 99, 99)'+mapValue(chimpScoreSlider.value,5,41)+'%')
+      chimpScoreSlider.style.background = color2
+      console.log('updated chimpIntervalSlider')
     })
   }else if(useDefault){
-    let defaultTimes = [15]
+    let defaultTimes = [15,41,true]
     console.log('key not found, using default:',defaultTimes)
-    chimpInput.value = defaultTimes
-    chimpSlider.value = chimpInput.value
-    console.log('new term: ',[chimpInput.value])
-    let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+chimpSlider.value/5+'%, rgb(99, 99, 99)'+chimpSlider.value/5+'%')
-    chimpSlider.style.background = color
-    console.log('updated chimpSlider')
+    chimpIntervalInput.value = defaultTimes[0]
+    chimpScoreInput.value = defaultTimes[1]
+    chimpAutoSwitch.checked=defaultTimes[2]
+    chimpIntervalSlider.value = chimpIntervalInput.value
+    chimpScoreSlider.value = chimpScoreInput.value
+    console.log('new chimp key: ',[chimpIntervalInput.value,chimpScoreInput.value])
+    let color = ('linear-gradient(90deg, rgb(105, 67, 255)'+chimpIntervalSlider.value*2+'%, rgb(99, 99, 99)'+chimpIntervalSlider.value*2+'%')
+    chimpIntervalSlider.style.background = color
+    console.log('updated chimpIntervalSlider')
+    let color2 = ('linear-gradient(90deg, rgb(105, 67, 255)'+mapValue(chimpScoreSlider.value,5,41)+'%, rgb(99, 99, 99)'+mapValue(chimpScoreSlider.value,5,41)+'%')
+    chimpScoreSlider.style.background = color2
+    console.log('updated chimpIntervalSlider')
+  }
+}
+
+function refreshLogo(){
+  if(popupLogo.src==chrome.runtime.getURL('images/Sparkle_Doll.png')){
+    changePopupBtn.classList.add('bx-color')
+    changePopupBtn.classList.remove('bxs-color')
+  }else{
+    changePopupBtn.classList.add('bxs-color')
+    changePopupBtn.classList.remove('bx-color')
   }
 }
 
@@ -501,6 +580,20 @@ function arraysEqual(arr1, arr2) {
   return true;
 }
 
+function notify(warning){
+  bannerOverlay.querySelectorAll('.banner-title, .banner-msg').forEach((elem)=>{
+    elem.classList.add('hidden')
+    console.log('added hidden class to - ',elem)
+  })
+  bannerOverlay.querySelectorAll(warning).forEach((elem)=>{
+    elem.classList.remove('hidden')
+    console.log('remove hidden from - ',elem)
+  })
+  bannerScreen.classList.remove('hidden')
+  bannerOverlay.classList.remove('hidden')
+  console.log('sent notification - ',warning)
+}
+
 function openOverlay(node, btn){
   switch(node){
     case 'timetable-tool':
@@ -516,12 +609,6 @@ function openOverlay(node, btn){
       darkScreen.classList.remove("hidden");
       console.log('reaction time clicked:',node,'via',btn.dataset.sub,'-',btn)
       break
-    case 'reaction-time-bool':
-      refreshReactionBool(btn.dataset.sub)
-      reactionBoolOverlay.classList.remove('hidden')
-      darkScreen.classList.remove("hidden");
-      console.log('reaction time bool clicked:',node,'via',btn.dataset.sub,'-',btn)
-      break
     case 'chimp-test':
       refreshChimpTest(btn.dataset.sub)
       chimpOverlay.classList.remove('hidden')
@@ -532,3 +619,35 @@ function openOverlay(node, btn){
       console.log('no corresponding node ID found for: ',node);
   }
 }
+
+function changeLogo(){
+  if(popupLogo.src==chrome.runtime.getURL('images/pull-shark.png')){
+    popupLogo.src=chrome.runtime.getURL('images/Sparkle_Doll.png')
+    setLocal('popup-icon-src',['images/Sparkle_Doll.png','images/Sparkle_Doll128.png'])
+    chrome.action.setIcon({path:'images/Sparkle_Doll128.png'})
+    refreshLogo()
+    console.log('changed icon to pull shark')
+  }else{
+    popupLogo.src=chrome.runtime.getURL('images/pull-shark.png')
+    setLocal('popup-icon-src',['images/pull-shark.png','images/pull-shark128.png'])
+    chrome.action.setIcon({path:'images/pull-shark128.png'})
+    refreshLogo()
+  }
+  
+}
+
+function init(){
+  chrome.storage.local.get(['popup-icon-src'],(result)=>{
+    const r=result['popup-icon-src']
+    if(r){
+      popupLogo.src=chrome.runtime.getURL(r[0])
+      chrome.action.setIcon({path:r[1]})
+    }
+    else{
+      popupLogo.src=chrome.runtime.getURL('images/pull-shark.png')
+      chrome.action.setIcon({path:'images/pull-shark128.png'})
+    }
+    refreshLogo()
+  })
+}
+init()
