@@ -3,11 +3,11 @@
 
   "manifest_version": 3,
 
-  "name": "Sparkling H2O2 test",
+  "name": "Sparkling H2O2",
   
   "short_name": "Sparkling H2O2",
 
-  "version": "0.1.7.0",
+  "version": "0.1.8.0",
   
   "description": "Collection of projects",
 

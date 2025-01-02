@@ -225,7 +225,7 @@ body {
 }
 
 .panel .nav-links li .sub-menu{
-  padding: 6px 6px 14px 80px;
+  padding: 6px 6px 6px 80px;
   /* margin-top: 10px; */
   background: #2d2a4e;
   display: none;
@@ -240,7 +240,7 @@ body {
   position: relative;
   color: #fff;
   font-size: 15px;
-  padding: 5px 0 0 5px;
+  padding: 2.5px 0 2.5px 5px;
   white-space: nowrap;
   opacity: 0.8;
   transition: all 0.3s ease;
@@ -287,14 +287,24 @@ body {
 }
 
 /* More specific selector for carleton-button */
-.panel .nav-links li .sub-menu a .config-btn{
+.panel .nav-links li .sub-menu a .config-container{
   visibility: visible;
-  font-size: 18px; /* Match the font size of the text */
+  font-size: 20px; /* Match the font size of the text */
+  display: flex;
+  gap: 5px;
+  align-items: center;
   color: #fff;
   opacity: 0.65;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
   flex-shrink: 0; /* Prevent the icon from growing */
+  will-change: transform;
+  align-items: center;
+}
+
+/* More specific selector for carleton-button */
+.panel .nav-links li .sub-menu a .config-btn{
+  transition: color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
 }
 
 /* More specific selector for carleton-button */
@@ -308,7 +318,12 @@ body {
   transform: scale(1.1);
 }
 
-.panel .nav-links li .sub-menu a:not(:hover) .config-btn {
+.panel .nav-links li .sub-menu a .config-container span{
+  font-size: 15px;
+  align-items: center;
+}
+
+.panel .nav-links li .sub-menu a:not(:hover) .config-container {
   visibility: hidden; /* Hide the config-btn when the parent <a> is not hovered */
 }
 
@@ -797,6 +812,21 @@ body {
   color: rgb(0, 214, 218); 
 }
 
+.info-btn{
+  font-size: 1.17em; /* Adjust the icon size if needed */
+  transition: all 0.2s ease;
+}
+
+.info-btn:hover{
+  transform: scale(1.1);
+  color: rgb(255, 217, 0);
+}
+
+.info-btn:active{
+  color: rgb(255, 242, 167);
+  transform: scale(1.2);
+}
+
 .info-btn-static{
   font-size: 1.4em; /* Adjust the icon size if needed */
   transition: all 0.3s ease;
@@ -918,31 +948,31 @@ body {
   text-align: end;
 }
 
-.input-header {
+.header-info {
   display: flex;
   align-items: center; /* Align items vertically centered */
   gap: 3px; /* Optional: Add space between the elements */
 }
 
-.input-header h3 {
+.header-info h3 {
   margin: 0; /* Remove default margin */
 }
 
-.input-header i {
+.header-info i {
   /* padding-top: 0.05em; */
   font-size: 1.4em; /* Adjust the icon size if needed */
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-.input-header i:hover{
+.header-info i:hover{
   transform: scale(1.1);
-  color: rgb(255, 236, 30);
+  color: rgb(255, 214, 30);
 }
 
-.input-header i:active{
+.header-info i:active{
   transition: all 0.1s ease;
   transform: scale(1.2);
-  color: rgb(255, 247, 161);
+  color: rgb(255, 241, 147);
 }
 
 .toggle-switch{

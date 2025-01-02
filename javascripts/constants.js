@@ -1,0 +1,67 @@
+class Interface {
+  // Header
+  static popupLogo = document.getElementById("popup-logo-img1");
+  // Body
+  static nodes = document.querySelectorAll(".node");
+  static staticNodes = document.querySelectorAll(".node.static.config");
+  static nodeSelectors = document.querySelectorAll(".selector");
+  static configBtns = document.querySelectorAll(".config-btn");
+  // Footer
+  static changePopupBtn = document.querySelector('.change-logo-btn');
+  static showUpdates = document.querySelector('.show-version-details');
+}
+
+class Overlays {
+  static allOverlays = document.querySelectorAll('.config-overlay');
+  static darkScreen = document.querySelector(".dark-screen");
+  // Buttons
+  static infoBtns = document.querySelectorAll('.info-btn');
+  static saveBtns = document.querySelectorAll('.config-save-btn');
+  static resetBtns = document.querySelectorAll('.config-reset-btn');
+  static presetBtns = document.querySelectorAll('.config-preset-btn');
+  static closeBtns = document.querySelectorAll('.close-btn');
+  // Sliders
+  static sliders = document.querySelectorAll('.slider');
+  static sliderInputs = document.querySelectorAll('.slider-textbox');
+  static dropdownConfigSelectors = document.querySelectorAll('.dropdown-config-select');
+}
+
+class ReactionTime {
+  static input = document.getElementById("reaction-time-input");
+  static slider = document.querySelector(".slider-reaction-time");
+  static rangeInput = document.getElementById("reaction-range-input");
+  static overlay = document.querySelector(".reaction-time.config-overlay");
+}
+
+class ChimpTest {
+  static overlay = document.querySelector(".chimp-test.config-overlay");
+  static intervalSlider = document.getElementById("chimp-test-goal");
+  static scoreSlider = document.getElementById('chimp-test-score');
+  static intervalInput = document.getElementById("chimp-test-input");
+  static scoreInput = document.getElementById('chimp-test-score-input');
+  static autoSwitch = document.querySelector('#wait-for-first-click');
+}
+
+class TimetableTool {
+  static semesterSelect = document.getElementById("semester-select");
+  static yearSelect = document.getElementById("year-select");
+  static overlay = document.querySelector(".timetable.config-overlay");
+  static schoolSelect = document.getElementById("school-select");
+}
+
+class Banners {
+  static overlay = document.querySelector('.banner-overlay');
+  static header = document.querySelector('.banner-header');
+  static content = document.querySelector('.banner-content');
+  static ok = document.querySelector('.banner-ok-btn');
+  static screen = document.querySelector(".banner-screen");
+}
+
+export {
+  Interface,
+  Overlays,
+  ReactionTime,
+  ChimpTest,
+  TimetableTool,
+  Banners
+};
