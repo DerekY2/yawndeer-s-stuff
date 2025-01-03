@@ -1,7 +1,7 @@
-msg='\nRequest failed: No Timetable Found.\n\n-Sparkling H2O2'
+msg='\nNavigate to "Detail Schedule"\n\nSparkling H2O2'
 try{
   alert(msg)
 }
 catch(err){
-  console.log(err)
+  //console.log(err)
 }

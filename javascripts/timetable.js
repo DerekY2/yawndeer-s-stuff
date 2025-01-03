@@ -6,27 +6,27 @@ function show(btn){
   refresh(TimetableTool.schoolSelect.value)
   TimetableTool.overlay.classList.remove('hidden')
   Overlays.darkScreen.classList.remove("hidden");
-  console.log('timetable clicked:',btn.dataset.node,'via',btn.dataset.school,'-',btn)
+  //console.log('timetable clicked:',btn.dataset.node,'via',btn.dataset.school,'-',btn)
 }
 
 function save(school=TimetableTool.schoolSelect.value, semester=TimetableTool.semesterSelect.value, year=TimetableTool.yearSelect.value, hide=TimetableTool.findTimetable.checked){
   setLocal(school, [semester, year,hide])
   hideOverlays()
-  console.log('save request processed')
+  //console.log('save request processed')
 }
 
 function refresh(key){
   chrome.storage.local.get([key], (result) => {
     const termData = result[key];
-    console.log('Getting:', key, ':', termData);
+    //console.log('Getting:', key, ':', termData);
     if (termData) {
-      console.log('Found -', key, ':', 'semester:', termData[0], 'year:', termData[1]);
+      //console.log('Found -', key, ':', 'semester:', termData[0], 'year:', termData[1]);
       TimetableTool.semesterSelect.value = termData[0];
       TimetableTool.yearSelect.value = termData[1];
       TimetableTool.findTimetable.checked = termData[2]==undefined?false:termData[2]
       toggle(termData[2])
       setState(key, [TimetableTool.semesterSelect.value, TimetableTool.yearSelect.value])
-      console.log('Set term/year to:', TimetableTool.semesterSelect.value, '/', TimetableTool.yearSelect.value);
+      //console.log('Set term/year to:', TimetableTool.semesterSelect.value, '/', TimetableTool.yearSelect.value);
     } else {
       setState(key, reset());
       save()
@@ -62,12 +62,12 @@ function setState(school, term) {
 
 function reset(){
   const defaultTerm = getDefaultTerm();
-  console.log('Using default term:', defaultTerm);
+  //console.log('Using default term:', defaultTerm);
   TimetableTool.semesterSelect.value = defaultTerm[0];
   TimetableTool.yearSelect.value = defaultTerm[1];
   TimetableTool.findTimetable.checked = defaultTerm[2]==undefined?false:defaultTerm[2]
   toggle(TimetableTool.findTimetable.checked)
-  console.log('New term:', [TimetableTool.semesterSelect.value, TimetableTool.yearSelect.value, TimetableTool.findTimetable.checked]);
+  //console.log('New term:', [TimetableTool.semesterSelect.value, TimetableTool.yearSelect.value, TimetableTool.findTimetable.checked]);
   return defaultTerm
 }
 
@@ -91,7 +91,7 @@ function getDefaultTerm() {
     console.error("ERROR: month not found. Default term is set to:", term, year, false);
   }
 
-  console.log("Default term is set to:", [term, year, false]);
+  //console.log("Default term is set to:", [term, year, false]);
   return [term, year, false];
 }
 
@@ -102,7 +102,7 @@ function toggle(val){
   else{
     document.querySelector('.timetable.config-content').classList.add('test')
   }
-  console.log('toggled:',val)
+  //console.log('toggled:',val)
 }
 
 function close(){

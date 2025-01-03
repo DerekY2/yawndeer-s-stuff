@@ -5,7 +5,7 @@
 //   ottawa
 //   waterloo
 // ```
-console.log('im here')
+//console.log('im here')
 chrome.storage.local.get(['carleton'],(results)=>{
   var r;
   if(!results){
@@ -14,7 +14,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
   }else{
     r=results['carleton']
   }
-  console.log('IM HERE')
+  //console.log('IM HERE')
   const termSelector = document.getElementById('term_id')
   const BIG_FAT_HEADER = 'body > div.pagetitlediv > table > tbody > tr:nth-child(1) > td:nth-child(1) > h2'
   const targetTerm = r[1]+r[0]
@@ -29,34 +29,34 @@ chrome.storage.local.get(['carleton'],(results)=>{
     if(auto){
       chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
       waitForElm('#term_id').then(()=>{
-        console.log('termSelector found')
+        //console.log('termSelector found')
         termSelector.value=targetTerm
         submitBtn.click()
       }).then(
         waitForElmText(BIG_FAT_HEADER,text).then((elm) => {
-          console.log(elm.textContent);
+          //console.log(elm.textContent);
           run()
         })
       )
     }else{
-      console.log('NOT in auto')
+      //console.log('NOT in auto')
       alert('\nRequest failed: No Term Selected\n\nSparkling H2O2')
     }
   }else if(document.title.trim()=='Student Detail Schedule'){
     chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
     waitForElm(BIG_FAT_HEADER).then((elm) => {
-      console.log('Timetable Loaded');
-      console.log(elm.textContent);
+      //console.log('Timetable Loaded');
+      //console.log(elm.textContent);
       run()
     })
   }
 
   // function waitForElement(tag, text, callback) {
-  //   console.log('wait requested')
+  //   //console.log('wait requested')
   //   const observer = new MutationObserver((mutations, observer) => {
   //     const element = Array.from(document.getElementsByTagName(tag)).find(el => el.textContent.trim() === text);
   //     if (element) {
-  //       console.log('object detected')
+  //       //console.log('object detected')
   //       callback();
   //       observer.disconnect();
   //     }
@@ -65,12 +65,12 @@ chrome.storage.local.get(['carleton'],(results)=>{
   // observer.observe(document.body, { childList: true, subtree: true });
     
   //   const termSelector = document.getElementById('term_id')
-    console.log(r,'\n',targetTerm,'\n',termSelector)
+    //console.log(r,'\n',targetTerm,'\n',termSelector)
   
   //   waitForElement('h2', 'Student Detail Schedule', run);
   function waitForElm(selector) {
     return new Promise(resolve => {
-      console.log('waiting for',selector,'...')
+      //console.log('waiting for',selector,'...')
         if (document.querySelector(selector)) {
             return resolve(document.querySelector(selector));
         }
@@ -115,7 +115,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
   
 
   function run(){
-    console.log('running  downloader.')
+    //console.log('running  downloader.')
     const tables = [];
     const log = []
     const userInfo = document.querySelector('body > div.pagetitlediv > table > tbody > tr:nth-child(1) > td:nth-child(3) > div').textContent.trim().split('')
@@ -126,7 +126,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
       const meta = {}
       meta['table-num']=index
       if (table.querySelector('a')) {
-        console.log(table.querySelectorAll('tr'))
+        //console.log(table.querySelectorAll('tr'))
         table.querySelectorAll('tr').forEach((r) => {
           const headerElement = r.querySelector('th');
           const valueElement = r.querySelector('td');
@@ -142,7 +142,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
         let courseName = courseData.slice(2).join(' - ')
         let crn = getRowContent(table, 3);
         let instructor = getRowContent(table, 5);
-        console.log(courseData,'\n',courseCode,'\n',courseSection,'\n',courseName)
+        //console.log(courseData,'\n',courseCode,'\n',courseSection,'\n',courseName)
         section.courseName = courseName;  
         section.courseCode = courseCode;
         section.courseSection = courseSection
@@ -159,7 +159,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
         // scrape data
         section.classStartTime = cells[1].textContent.trim()=='TBA'?'N/A':cells[1].textContent.trim().split(' - ')[0];
         section.classEndTime = cells[1].textContent.trim()=='TBA'?'N/A':cells[1].textContent.trim().split(' - ')[1];
-        console.log('starttimes:',section.classStartTime, section.classEndTime)
+        //console.log('starttimes:',section.classStartTime, section.classEndTime)
         section.daysOfTheWeek = cells[2].textContent.trim();
         section.location = cells[3].textContent.trim();
         section.startDate = new Date(cells[4].textContent.trim().split(' - ')[0]);
@@ -176,7 +176,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
     });
 
     const timetable= tables;
-    console.log('timetable:\n',timetable)
+    //console.log('timetable:\n',timetable)
     function getRowContent(table, rowIndex) {
       const row = table.querySelector(`tr:nth-of-type(${rowIndex}) td`);
       return !(row=='') ? row.textContent.trim() : 'N/A';
@@ -185,11 +185,11 @@ chrome.storage.local.get(['carleton'],(results)=>{
     
 
     function createICal(timetable) {
-      console.log('Creating iCal with timetable:', timetable);
+      //console.log('Creating iCal with timetable:', timetable);
       let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//SparklingH2O2//CU_Timetable//EN\n';
       var count=0;
       timetable.forEach(node => {
-        console.log('Processing node:', node);
+        //console.log('Processing node:', node);
         node.startDate = adjustStartDateToDay(new Date(node.startDate), node.daysOfTheWeek);
         const daysMap = {
           'M': 'MO',
@@ -199,10 +199,10 @@ chrome.storage.local.get(['carleton'],(results)=>{
           'F': 'FR'
         };
     
-        console.log('unconverted time: ', node.classStartTime, 'end:', node.classEndTime);
+        //console.log('unconverted time: ', node.classStartTime, 'end:', node.classEndTime);
         const startTime = node.classStartTime=='N/A'?'none':convertTo24Hour(node.classStartTime).split(':');
         const endTime = node.classEndTime=='N/A'?'none':convertTo24Hour(node.classEndTime).split(':');
-        console.log('converted to 24 hours:', startTime, 'end:', endTime);
+        //console.log('converted to 24 hours:', startTime, 'end:', endTime);
         const startHour = parseInt(startTime[0], 10);
         const startMinute = parseInt(startTime[1], 10);
         const endHour = parseInt(endTime[0], 10);
@@ -211,7 +211,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
         const timeNoSpace2 = node.classEndTime.replace(/\s/g, '');
         var dayList = []
         node.daysOfTheWeek.split('').forEach(day => {
-          console.log('day:', day);
+          //console.log('day:', day);
           const dayOfWeek = daysMap[day];
           dayList.push(dayOfWeek)
         });
@@ -224,9 +224,9 @@ chrome.storage.local.get(['carleton'],(results)=>{
           startDate.setUTCHours(startHour, startMinute, 0, 0);
           endDate.setUTCHours(endHour, endMinute, 0, 0);
 
-          console.log(`Creating event for ${node.courseName} on ${dayList}`);
-          console.log(`Start Date: ${startDate}`);
-          console.log(`End Date: ${endDate}`);
+          //console.log(`Creating event for ${node.courseName} on ${dayList}`);
+          //console.log(`Start Date: ${startDate}`);
+          //console.log(`End Date: ${endDate}`);
 
           icsContent += 'BEGIN:VEVENT\n';
           icsContent += `DTSTART;TZID=America/Toronto:${formatDateLocal(startDate)}\n`;
@@ -241,7 +241,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
       });
     
       icsContent += 'END:VCALENDAR';
-      console.log('iCal content generated:', icsContent);
+      //console.log('iCal content generated:', icsContent);
       if(count>0){
         const blob = new Blob([icsContent], { type: 'text/calendar' });
         const url = URL.createObjectURL(blob);
@@ -283,13 +283,13 @@ chrome.storage.local.get(['carleton'],(results)=>{
 
     
     function formatDateLocal(date) {
-      console.log('Formatting date local:', date);
-      console.log('finished date local:', date.toISOString().replace(/[-:]/g, '').split('.')[0]);
+      //console.log('Formatting date local:', date);
+      //console.log('finished date local:', date.toISOString().replace(/[-:]/g, '').split('.')[0]);
       return date.toISOString().replace(/[-:]/g, '').split('.')[0];
     }
     
     function formatDateUTC(date) {
-      console.log('Formatting date:', date);
+      //console.log('Formatting date:', date);
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     }
     
@@ -297,17 +297,17 @@ chrome.storage.local.get(['carleton'],(results)=>{
       const [time, modifier] = time12h.split(' ');
     
       let [hours, minutes] = time.split(':');
-      console.log('before format: ',`${hours},${minutes}`)
+      //console.log('before format: ',`${hours},${minutes}`)
 
       if (hours === '12') {
         hours = '00';
       }
     
       if (modifier === 'pm') {
-        console.log('pm detected, adding 12')
+        //console.log('pm detected, adding 12')
         hours = parseInt(hours, 10) + 12;
       }
-      console.log('after format: ',`${hours}:${minutes}`)
+      //console.log('after format: ',`${hours}:${minutes}`)
       return `${hours}:${minutes}`;
     }
     
@@ -355,7 +355,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
       term = '10';
       console.error("ERROR: month not found. Default term is set to:", term, year);
     }
-    console.log("Default term is set to:", [term, year, false]);
+    //console.log("Default term is set to:", [term, year, false]);
     return [term, year, false];
   }
 })

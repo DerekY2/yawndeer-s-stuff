@@ -1,6 +1,6 @@
 // chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 //   if (message.action === 'startListener' && message.url && message.file) {
-//     console.log('Received background request');
+//     //console.log('Received background request');
 //     const iurl='https://central.carleton.ca/prod/bwskfshd.P_CrseSchd'
 //     // Define a function to handle the onCompleted event
 //     const handleNavigationCompleted = (details) => {
@@ -10,7 +10,7 @@
 //           target: { tabId: details.tabId },
 //           files: [message.file]
 //         });
-//         console.log('Injected script into tab:', details.tabId);
+//         //console.log('Injected script into tab:', details.tabId);
 //       }
 //     };
 
@@ -22,7 +22,7 @@
 //     // Here, we remove the listener after 5 minutes (300000 milliseconds)
 //     setTimeout(() => {
 //       chrome.webNavigation.onCompleted.removeListener(handleNavigationCompleted);
-//       console.log('Removed navigation completed listener after timeout');
+//       //console.log('Removed navigation completed listener after timeout');
 //     }, 300000); // 5 minutes
 //   }
 // });
@@ -71,11 +71,11 @@
 
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('Message received:', message);
+  //console.log('Message received:', message);
 
   if (message.action === 'closeTab' && sender.tab) {
     chrome.tabs.remove(sender.tab.id, () => {
-      console.log('Tab closed:', sender.tab.id);
+      //console.log('Tab closed:', sender.tab.id);
     });
   } 
   
@@ -86,10 +86,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       if (tabs[rightTabIndex]) {
         chrome.tabs.remove(tabs[rightTabIndex].id, () => {
-          console.log('Closed tab to the right:', tabs[rightTabIndex].id);
+          //console.log('Closed tab to the right:', tabs[rightTabIndex].id);
         });
       } else {
-        console.log('No tab to the right found.');
+        //console.log('No tab to the right found.');
       }
     });
   } 
@@ -101,10 +101,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       if (leftTabIndex >= 0 && tabs[leftTabIndex].url === 'https://central.carleton.ca/prod/bwskfshd.P_CrseSchd') {
         chrome.tabs.remove(tabs[leftTabIndex].id, () => {
-          console.log('Closed tab to the left with the specified URL:', tabs[leftTabIndex].id);
+          //console.log('Closed tab to the left with the specified URL:', tabs[leftTabIndex].id);
         });
       } else {
-        console.log('No tab to the left with the specified URL found.');
+        //console.log('No tab to the left with the specified URL found.');
       }
     });
   } 
@@ -114,12 +114,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (tabs.length > 0) {
         tabs.sort((a, b) => b.id - a.id);
         const mostRecentTab = tabs[0];
-        console.log('about to close:',mostRecentTab)
+        //console.log('about to close:',mostRecentTab)
         chrome.tabs.remove(tabs[1].id, () => {
-          console.log('Closed tab:', tabs[1].id);
+          //console.log('Closed tab:', tabs[1].id);
         });
       } else {
-        console.log('No tabs found.');
+        //console.log('No tabs found.');
       }
     })
   }
@@ -135,7 +135,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       newTempTab = message.tab
       temp.push(newTempTab)
       chrome.storage.session.set({[key]: temp},()=>{
-        console.log('Tracking new,',key,'tab:',newTempTab,'.\nTotal:',temp)
+        //console.log('Tracking new,',key,'tab:',newTempTab,'.\nTotal:',temp)
       })
     })
   }
@@ -148,12 +148,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
     chrome.storage.session.get(key,(result)=>{
       var tabs=result[key]
-      console.log('About to close temp:',tabs)
+      //console.log('About to close temp:',tabs)
       if(tabs&&tabs.length>0)
         tabs.forEach(tab=>{
           try{
             chrome.tabs.remove(tab.id,()=>{
-              console.log('removed',key,'tab:',tab)
+              //console.log('removed',key,'tab:',tab)
             })
           }
           catch(err){
@@ -162,7 +162,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         })
         tabs=[]
         chrome.storage.session.set({[key]:tabs},()=>{
-          console.log('Updated', key,'.\nRemaining tabs:', tabs);
+          //console.log('Updated', key,'.\nRemaining tabs:', tabs);
         })
     })
   }
@@ -182,18 +182,18 @@ function store(key, val){
       var eq=original===val
     }
     if (!eq) { // Only update if the value is different
-      console.log("About to save - ", original, " ==> ", val);
+      //console.log("About to save - ", original, " ==> ", val);
       chrome.storage.storage.set({ [key]: val }, function() {
         if (chrome.runtime.lastError) {
           console.error("Error saving value:", key, chrome.runtime.lastError);
         }
         else{
-          console.log("Value saved successfully for", key, ":", val);
+          //console.log("Value saved successfully for", key, ":", val);
         }
         refresh[key](key)
       });
     } else {
-      console.log("No change detected. Value not updated for key:", key);
+      //console.log("No change detected. Value not updated for key:", key);
     }
   });
 }

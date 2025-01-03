@@ -23,7 +23,14 @@ function inject2(file, login, calendar, timetables){
         });
       }
       else{
-        notify('.no-timetable-found')
+        chrome.tabs.query({ active: true, url: calendar },tab=>{
+          if(tab.length>0){
+            injectScript(tab[0].id, 'armory/notification.js')
+          }
+          else{
+            notify('.no-timetable-found')
+          }
+        })
       }
     })
   })

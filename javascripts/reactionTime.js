@@ -3,7 +3,7 @@ import { ReactionTime, Overlays } from "./constants.js";
 
 function save(){
   var err=false
-  console.log('Reaction save button click');
+  //console.log('Reaction save button click');
   if(ReactionTime.input.value<=0){
     ReactionTime.input.value=1
     notify('.timetravel-warning')
@@ -31,21 +31,21 @@ function save(){
   if(!err){
     setLocal('reaction-time',[parseInt(ReactionTime.input.value),parseInt(ReactionTime.rangeInput.value)])
     hideOverlays()
-    console.log('saved request processed')
+    //console.log('saved request processed')
   }
 }
 
 function refresh(key='reaction-time') {
   chrome.storage.local.get([key], (r) => {
     const result = r[key];
-    console.log('Getting:', key, ':', result);
+    //console.log('Getting:', key, ':', result);
     if (result) {
-      console.log('Found -', key, ':', 'reaction time:', result[0], 'range:', result[1]);
+      //console.log('Found -', key, ':', 'reaction time:', result[0], 'range:', result[1]);
       setReactionTime(result[0], result[1]);
       setState(result[0])
     } else {
       const defaultTimes = [20, 1];
-      console.log('Key not found, using default:', defaultTimes);
+      //console.log('Key not found, using default:', defaultTimes);
       setReactionTime(defaultTimes[0], defaultTimes[1]);
       setState(defaultTimes[0])
       save()
@@ -55,25 +55,25 @@ function refresh(key='reaction-time') {
 
 function reset(){
   const defaultTimes = [20, 1];
-  console.log('Using default times:', defaultTimes);
+  //console.log('Using default times:', defaultTimes);
   setReactionTime(defaultTimes[0], defaultTimes[1]);
 }
 
 function setFast(){
   const fastTimes = [1, 1];
-  console.log('Fast mode requested:', fastTimes);
+  //console.log('Fast mode requested:', fastTimes);
   setReactionTime(fastTimes[0], fastTimes[1]);
 }
 
 function setReactionTime(reactionTime, range) {
-  console.log('setting reaction time: ',reactionTime,'and',range)
+  //console.log('setting reaction time: ',reactionTime,'and',range)
   ReactionTime.input.value = reactionTime;
   ReactionTime.slider.value = reactionTime;
   ReactionTime.rangeInput.value = range;
   ReactionTime.slider.style.background = ('linear-gradient(90deg, rgb(105, 67, 255)'+ReactionTime.slider.value/3+'%, rgb(99, 99, 99)'+ReactionTime.slider.value/3+'%');
   
-  console.log('Set reaction/range to:', reactionTime, '/', range);
-  console.log('Updated ReactionTime.slider -', ReactionTime.slider.value / 5);
+  //console.log('Set reaction/range to:', reactionTime, '/', range);
+  //console.log('Updated ReactionTime.slider -', ReactionTime.slider.value / 5);
 }
 
 function close(){

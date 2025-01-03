@@ -115,7 +115,7 @@ Overlays.closeBtns.forEach(e=>{
 Interface.popupLogo.addEventListener('click',()=>{
   changeLogo()
   refreshLogo()
-  console.log('clicked')
+  //console.log('clicked')
 })
 
 Interface.changePopupBtn.addEventListener('click',()=>{
@@ -127,9 +127,9 @@ Interface.configBtns.forEach(btn => {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(e)
+    //console.log(e)
     let configNode = btn.dataset.node
-    console.log('about to open -',configNode,'via',btn)
+    //console.log('about to open -',configNode,'via',btn)
     show[btn.dataset.node](btn)
     // openOverlay(configNode, btn)
   });
@@ -139,7 +139,7 @@ Overlays.infoBtns.forEach(btn=>{
   btn.addEventListener('click',e=>{
     e.preventDefault()
     e.stopPropagation()
-    console.log(e,'pressed')
+    //console.log(e,'pressed')
     notify(btn.dataset.info)
   })
 })
@@ -162,7 +162,7 @@ Banners.ok.addEventListener('click',()=>{
 Banners.screen.addEventListener("click", (e) => {
   e.preventDefault()
   e.stopPropagation()
-  console.log('you shall not pass')
+  //console.log('you shall not pass')
 });
 
 Overlays.sliders.forEach(s=>{
@@ -180,7 +180,7 @@ Overlays.sliderInputs.forEach(i=>{
 Overlays.switches.forEach(i=>{
   i.addEventListener('input',()=>{
     toggle[i.dataset.node](i.checked)
-    console.log("toggled")
+    //console.log("toggled")
   })
 })
 
@@ -262,18 +262,18 @@ function setLocal(key, val){
       var eq=original===val
     }
     if (!eq) { // Only update if the value is different
-      console.log("About to save - ", original, " ==> ", val);
+      //console.log("About to save - ", original, " ==> ", val);
       chrome.storage.local.set({ [key]: val }, function() {
         if (chrome.runtime.lastError) {
           console.error("Error saving value:", key, chrome.runtime.lastError);
         }
         else{
-          console.log("Value saved successfully for", key, ":", val);
+          //console.log("Value saved successfully for", key, ":", val);
         }
         refresh[key](key)
       });
     } else {
-      console.log("No change detected. Value not updated for key:", key);
+      //console.log("No change detected. Value not updated for key:", key);
     }
   });
 }
@@ -289,15 +289,15 @@ function arraysEqual(arr1, arr2) {
 function notify(warning){
   Banners.overlay.querySelectorAll('.banner-title, .banner-msg').forEach((elem)=>{
     elem.classList.add('hidden')
-    console.log('added hidden class to - ',elem)
+    //console.log('added hidden class to - ',elem)
   })
   Banners.overlay.querySelectorAll(warning).forEach((elem)=>{
     elem.classList.remove('hidden')
-    console.log('remove hidden from - ',elem)
+    //console.log('remove hidden from - ',elem)
   })
   Banners.screen.classList.remove('hidden')
   Banners.overlay.classList.remove('hidden')
-  console.log('sent notification - ',warning)
+  //console.log('sent notification - ',warning)
 }
 
 function changeLogo(){
@@ -306,11 +306,11 @@ function changeLogo(){
     setLocal('popup-icon-src',['images/Sparkle_Doll.png','images/Sparkle_Doll128.png'])
     chrome.action.setIcon({path:'images/Sparkle_Doll128.png'})
     refreshLogo()
-    console.log('changed icon tosparkle')
+    //console.log('changed icon tosparkle')
   }else if(Interface.popupLogo.src==chrome.runtime.getURL('images/Sparkle_Doll.png')){
     Interface.popupLogo.src=chrome.runtime.getURL('images/sky-icon.png')
     setLocal('popup-icon-src',['images/sky-icon.png','images/sky-icon128.png'])
-    console.log('changed icon to sky')
+    //console.log('changed icon to sky')
     chrome.action.setIcon({path:'images/sky-icon128.png'})
     refreshLogo()
   }
@@ -318,7 +318,7 @@ function changeLogo(){
     Interface.popupLogo.src=chrome.runtime.getURL('images/pull-shark.png')
     setLocal('popup-icon-src',['images/pull-shark.png','images/pull-shark128.png'])
     chrome.action.setIcon({path:'images/pull-shark128.png'})
-    console.log('changed icon to pull')
+    //console.log('changed icon to pull')
     refreshLogo()
   }
 }
@@ -332,14 +332,14 @@ function hideOverlays(){
 }
 
 function hideBanner(){
-  console.log('Banner ok button click');
+  //console.log('Banner ok button click');
   Banners.overlay.classList.add("hidden");
   Banners.screen.classList.add("hidden");
   Banners.content.querySelector('.banner-placeholder').classList.remove('hidden')
   const helem=Banners.header.querySelector('.notif-header')
   const pelem = Banners.content.querySelector('.notif-content')
-  helem?helem.remove():console.log('no banner title found')
-  pelem?pelem.remove():console.log('no banner content found')
+  helem.remove()
+  pelem.remove()
 }
 
 function init(){
