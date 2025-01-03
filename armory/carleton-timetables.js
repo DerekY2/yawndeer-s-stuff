@@ -161,7 +161,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
         section.classEndTime = cells[1].textContent.trim()=='TBA'?'N/A':cells[1].textContent.trim().split(' - ')[1];
         //console.log('starttimes:',section.classStartTime, section.classEndTime)
         section.daysOfTheWeek = cells[2].textContent.trim();
-        section.location = cells[3].textContent.trim();
+        section.location = cells[3].textContent.trim()=='TBA'?'':cells[3].textContent.trim();
         section.startDate = new Date(cells[4].textContent.trim().split(' - ')[0]);
         section.endDate = new Date(cells[4].textContent.trim().split(' - ')[1]);
         Object.assign(tables[Math.floor(index/2)], section);
@@ -233,7 +233,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
           icsContent += `DTEND;TZID=America/Toronto:${formatDateLocal(endDate)}\n`;
           icsContent += `RRULE:FREQ=WEEKLY;BYDAY=${dayList.join(',')};UNTIL=${formatDateUTC(untilDate)};WKST=SU;\n`;
           icsContent += `SUMMARY:${node.courseCode}-${node.courseSection}\n`;
-          icsContent += `DESCRIPTION:${node.courseName}\\n${node.courseCode} - ${node.courseSection}\\n${node.instructor}\\n${node.crn}\\n${timeNoSpace} - ${timeNoSpace2}\\n${node.location}\n`;
+          icsContent += `DESCRIPTION:${node.courseName}\\n${node.courseCode} - ${node.courseSection}\\n${node.instructor}\\n${node.crn}\\n${timeNoSpace} - ${timeNoSpace2}\\n${node.location?node.location:'Location: N/A'}\n`;
           icsContent += `LOCATION:${node.location}\n`;
           icsContent += 'END:VEVENT\n';
           count++
