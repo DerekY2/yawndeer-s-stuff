@@ -41,7 +41,7 @@ function refresh(key='chimp-test') {
       const defaultTimes = [15, 41, true];
       console.log('Key not found, using default:', defaultTimes);
       setValues(defaultTimes[0], defaultTimes[1], defaultTimes[2]);
-      setState(result[0])
+      setState(defaultTimes[0])
       save()
     }
   });

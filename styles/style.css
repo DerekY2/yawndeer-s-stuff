@@ -481,7 +481,7 @@ body {
   display: flex;
   flex-direction: row; /* Arrange items in a row */
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   margin-top: 5px;
 }
 
@@ -508,6 +508,7 @@ body {
   flex-direction: row; /* Arrange items in a row */
   justify-content: space-between; /* Distribute space between items */
   align-items: center;
+  margin-top: 10px;
   gap: 10px; /* Add space between dropdowns */
 }
 
@@ -538,6 +539,15 @@ body {
 
 .config-content select .school-select{
   min-width: 100px;
+}
+
+.config-vertical{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  /* padding-top: 10px; */
 }
 
 .config-footer {
@@ -761,6 +771,10 @@ body {
   height: 0;
 }
 
+.more-timetable{
+  margin-top: 0;
+}
+
 .banner-overlay {
   position: fixed;
   top: 50%;
@@ -812,8 +826,33 @@ body {
   color: rgb(0, 214, 218); 
 }
 
+.underline{
+  text-decoration: underline;
+}
+
+.interact{
+  color: rgb(255, 187, 14);
+  transition: all 0.2 ease;
+  transition: color 0.06 ease;
+}
+
+.interact:hover{
+  color: rgb(255, 156, 103);
+  transform: scale(1.1);
+}
+
+.interact:hover{
+  color: rgb(255, 193, 117);
+  transform: scale(1.1);
+}
+
+.interact:active{
+  color: rgb(255, 214, 148);
+  transform: scale(1.05);
+}
+
 .info-btn{
-  font-size: 1.17em; /* Adjust the icon size if needed */
+  font-size: 24px; /* Adjust the icon size if needed */
   transition: all 0.2s ease;
 }
 

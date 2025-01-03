@@ -1,6 +1,7 @@
 import * as timetable from './timetable.js'
 import * as reactionTime from './reactionTime.js'
 import * as chimpTest from './chimpTest.js'
+import * as carleton from './carleton-loader.js'
 import { Interface, Overlays, Banners } from './constants.js';
 
 const save = {
@@ -45,6 +46,14 @@ const show = {
   'chimp-test': (e) => chimpTest.show(e)
 }
 
+const loader={
+  'carleton':(e)=> carleton.loader(e)
+}
+
+const toggle={
+  'timetable-tool':(e)=>timetable.toggle(e)
+}
+
 // click listener & menu toggle - Interface.nodes
 Interface.nodes.forEach(node => {
   node.addEventListener("click", (e)=>{
@@ -71,9 +80,11 @@ Interface.nodeSelectors.forEach(selector =>{
       return;
     }
     e.preventDefault
-    if(!selector.classList.contains('require-opened')){
+    if(selector.classList.contains('require-opened-cu')){
+      loader['carleton'](selector)
+    }else{
       inject(selector.dataset.injection, selector.dataset.url)
-    }else{inject(selector.dataset.injection, selector.dataset.url,true)}
+    }
   })
 })
 
@@ -104,6 +115,7 @@ Overlays.closeBtns.forEach(e=>{
 Interface.popupLogo.addEventListener('click',()=>{
   changeLogo()
   refreshLogo()
+  console.log('clicked')
 })
 
 Interface.changePopupBtn.addEventListener('click',()=>{
@@ -165,6 +177,13 @@ Overlays.sliderInputs.forEach(i=>{
   })
 })
 
+Overlays.switches.forEach(i=>{
+  i.addEventListener('input',()=>{
+    toggle[i.dataset.node](i.checked)
+    console.log("toggled")
+  })
+})
+
 // listener - open updates.html when clicked
 Interface.showUpdates.addEventListener('click',(e)=>{
   open(Interface.showUpdates.dataset.url)
@@ -174,7 +193,7 @@ Interface.showUpdates.addEventListener('click',(e)=>{
 function inject(file, request_url, checkOpen = false) {
   if (file) {
     if (checkOpen) {
-      chrome.tabs.query({ 'url': request_url }, tabs => {
+      chrome.tabs.query({ currentWindow: true, url: request_url }, tabs => {
         if (tabs && tabs.length > 0) {
           const targetTab = tabs[tabs.length - 1].id;
           chrome.tabs.update(targetTab, { active: true });
@@ -217,9 +236,16 @@ function refreshLogo(){
   if(Interface.popupLogo.src==chrome.runtime.getURL('images/Sparkle_Doll.png')){
     Interface.changePopupBtn.classList.add('bxs-color')
     Interface.changePopupBtn.classList.remove('bx-color')
-  }else{
+    Interface.changePopupBtn.classList.remove('bxs-moon')
+  }else if(Interface.popupLogo.src==chrome.runtime.getURL('images/pull-shark.png')){
     Interface.changePopupBtn.classList.add('bx-color')
+    Interface.changePopupBtn.classList.remove('bxs-moon')
     Interface.changePopupBtn.classList.remove('bxs-color')
+  }
+  else if(Interface.popupLogo.src==chrome.runtime.getURL('images/sky-icon.png')){
+    Interface.changePopupBtn.classList.add('bxs-moon')
+    Interface.changePopupBtn.classList.remove('bxs-color')
+    Interface.changePopupBtn.classList.remove('bx-color')
   }
 }
 
@@ -280,11 +306,19 @@ function changeLogo(){
     setLocal('popup-icon-src',['images/Sparkle_Doll.png','images/Sparkle_Doll128.png'])
     chrome.action.setIcon({path:'images/Sparkle_Doll128.png'})
     refreshLogo()
-    console.log('changed icon to pull shark')
-  }else{
+    console.log('changed icon tosparkle')
+  }else if(Interface.popupLogo.src==chrome.runtime.getURL('images/Sparkle_Doll.png')){
+    Interface.popupLogo.src=chrome.runtime.getURL('images/sky-icon.png')
+    setLocal('popup-icon-src',['images/sky-icon.png','images/sky-icon128.png'])
+    console.log('changed icon to sky')
+    chrome.action.setIcon({path:'images/sky-icon128.png'})
+    refreshLogo()
+  }
+  else if((Interface.popupLogo.src==chrome.runtime.getURL('images/sky-icon.png'))){
     Interface.popupLogo.src=chrome.runtime.getURL('images/pull-shark.png')
     setLocal('popup-icon-src',['images/pull-shark.png','images/pull-shark128.png'])
     chrome.action.setIcon({path:'images/pull-shark128.png'})
+    console.log('changed icon to pull')
     refreshLogo()
   }
 }

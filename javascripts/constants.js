@@ -24,6 +24,9 @@ class Overlays {
   static sliders = document.querySelectorAll('.slider');
   static sliderInputs = document.querySelectorAll('.slider-textbox');
   static dropdownConfigSelectors = document.querySelectorAll('.dropdown-config-select');
+
+  // Switches
+  static switches = document.querySelectorAll('.toggle-switch')
 }
 
 class ReactionTime {
@@ -47,6 +50,7 @@ class TimetableTool {
   static yearSelect = document.getElementById("year-select");
   static overlay = document.querySelector(".timetable.config-overlay");
   static schoolSelect = document.getElementById("school-select");
+  static findTimetable = document.getElementById('find-timetable')
 }
 
 class Banners {

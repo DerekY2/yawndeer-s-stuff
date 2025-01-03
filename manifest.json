@@ -7,27 +7,30 @@
   
   "short_name": "Sparkling H2O2",
 
-  "version": "0.1.8.0",
+  "version": "0.1.9.5",
   
   "description": "Collection of projects",
 
   
   "icons": {
-    "48": "images/pull-shark.png",
-    "128": "images/pull-shark.png"
+    "48": "images/sky-icon.png",
+    "128": "images/sky-icon.png"
   },
 
-  "permissions": ["scripting", "storage"],
+  "permissions": ["scripting", "storage", "activeTab", "webNavigation"],
 
   "host_permissions": ["<all_urls>"],
 
   "content_security_policy": {
     "sandbox": "sandbox allow-scripts; 'unsafe-inline' 'self'"
   },
-
+  
+  "background": {
+      "service_worker": "javascripts/background.js"
+    },
   "action": {
     "default_title": "Sparkling H2O2",
-    "default_icon": "images/pull-shark.png",
+    "default_icon": "images/sky-icon.png",
     "default_popup": "popup.html"
   },
 
