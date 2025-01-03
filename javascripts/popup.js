@@ -338,8 +338,13 @@ function hideBanner(){
   Banners.content.querySelector('.banner-placeholder').classList.remove('hidden')
   const helem=Banners.header.querySelector('.notif-header')
   const pelem = Banners.content.querySelector('.notif-content')
-  helem.remove()
-  pelem.remove()
+  if(helem){
+    helem.remove()
+
+  }
+  if(pelem){
+    pelem.remove()
+  }
 }
 
 function init(){
