@@ -147,7 +147,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
         section.courseCode = courseCode;
         section.courseSection = courseSection
         section.crn=crn
-        section.instructor = instructor
+        section.instructor = instructor.trim()?instructor.trim():'Instructor: N/A'
         tables[index / 2] = section;
         log.push(meta)
       } else {
