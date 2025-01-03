@@ -5,20 +5,20 @@ function save(interval=ChimpTest.intervalInput.value, target=ChimpTest.scoreInpu
   var err=false;
   //console.log('Chimp save button click');
   if(interval<0){
-    interval=0
+    ChimpTest.intervalInput.value=0
     notify('.timetravel-zero-warning')
     err=true;
   }else if(interval>=1000000000000){
-    interval=999999999999
+    ChimpTest.intervalInput.value=999999999999
     notify('.large-input-warning')
     err=true;
   }
   if(target<5){
-    target=5
+    ChimpTest.scoreInput.value=5
     notify('.chimp-range-warning')
     err=true;
   }else if(target>41){
-    target=41
+    ChimpTest.scoreInput.value=41
     notify('.chimp-range-warning')
     err=true;
   }
