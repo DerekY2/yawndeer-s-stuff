@@ -17,7 +17,7 @@
     "128": "images/sky-icon.png"
   },
 
-  "permissions": ["scripting", "storage", "activeTab", "webNavigation"],
+  "permissions": ["scripting", "storage", "activeTab"],
 
   "host_permissions": ["<all_urls>"],
 
