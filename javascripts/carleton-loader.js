@@ -1,38 +1,29 @@
-
-import { notify } from "./popup.js"
-
 function loader(node){
-  inject2(node.dataset.injection, node.dataset.url, node.dataset.calendar, node.dataset.timetables)
+  inject2(node.dataset.injection, node.dataset.url, node.dataset.timetables)
 }
 
-function inject2(file, login, calendar, timetables){
-  chrome.storage.local.get(['carleton'],(results)=>{
-    chrome.tabs.query({ active: true, url: timetables },tab=>{
-      if(tab.length>0){
-        injectScript(tab[0].id, file)
-      }
-      else if(results['carleton'][2]){
-        chrome.tabs.create({ url: login }, newTab=>{
+// background script
+// 
+
+function inject2(file, login, timetables){
+  chrome.tabs.query({ active: true, url: timetables },tab=>{
+    if(tab.length>0){
+      chrome.storage.session.set({['timetable-requested']:[true,'carleton', file]}, ()=>{
+        injectScript(tab[0].id, file);
+      })
+    }
+    else{ // if auto-navigate
+      chrome.tabs.create({ url: login }, newTab=>{
+        chrome.storage.session.set({['timetable-requested']:[true,'carleton', file]}, ()=>{
+        chrome.runtime.sendMessage({ action: 'newCarletonTempTab', tab: newTab, type:'timetable'});
           injectScript(newTab.id, file);
-          // Keep track of this tab
-          chrome.runtime.sendMessage({ action: 'newCarletonTempTab', tab: newTab, type:'login'});
-        });
-        chrome.tabs.create({ url: timetables }, newTab=>{
-          injectScript(newTab.id, file);
-          chrome.runtime.sendMessage({ action: 'newCarletonTempTab', tab: newTab, type:'timetable'});
-        });
-      }
-      else{
-        chrome.tabs.query({ active: true, url: calendar },tab=>{
-          if(tab.length>0){
-            injectScript(tab[0].id, 'armory/notification.js')
-          }
-          else{
-            notify('.no-timetable-found')
-          }
         })
-      }
-    })
+        // Keep track of this tab
+        // chrome.runtime.sendMessage({ action: 'newCarletonTempTab', tab: newTab, type:'login'});
+      });
+      // chrome.tabs.create({ url: timetables }, newTab=>{
+      //   injectScript(newTab.id, file);
+    }
   })
 }
 
@@ -42,6 +33,5 @@ function injectScript(tabId, file) {
     files: [file]
   });
 }
-
 
 export { loader }

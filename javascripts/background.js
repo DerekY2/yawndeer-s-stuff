@@ -166,6 +166,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         })
     })
   }
+  else if(message.action==='end-timetable-request'){
+    chrome.storage.session.set({['timetable-requested']:[false]})
+  }
 });
 
 
@@ -195,5 +198,32 @@ function store(key, val){
     } else {
       //console.log("No change detected. Value not updated for key:", key);
     }
+  });
+}
+
+chrome.webNavigation.onCommitted.addListener((details) => {
+  chrome.storage.session.get(['timetable-requested'], (result) => {
+    const r = result['timetable-requested'];
+    if (r && r[0]) {
+      if(details.url=='https://360.carleton.ca/urd/sits.urd/run/siw_lgn_logout.saml_logout'){
+        window.location.href='https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd'
+      }
+      else{
+        injectScript(details.tabId, r[2]);
+        console.log('timetable requested, injected script');
+      }
+    }
+  });
+}, {
+  url: [
+    { hostContains: 'central.carleton.ca' },
+    { urlEquals: 'https://360.carleton.ca/urd/sits.urd/run/siw_lgn_logout.saml_logout'}
+  ]
+});
+
+function injectScript(tabId, file) {
+  chrome.scripting.executeScript({
+    target: { tabId: tabId },
+    files: [file]
   });
 }

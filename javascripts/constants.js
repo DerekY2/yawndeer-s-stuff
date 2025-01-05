@@ -61,6 +61,10 @@ class Banners {
   static screen = document.querySelector(".banner-screen");
 }
 
+// class Registry{
+//   static carletonURLs = ['https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd', 'https://central.carleton.ca/prod/bwskfshd.P_CrseSchd', 'https://central.carleton.ca/prod/bwskfshd.P_CrseSchdDetl', 'armory/carleton-timetables.js']
+// }
+
 export {
   Interface,
   Overlays,

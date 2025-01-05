@@ -218,19 +218,10 @@
     <div class="timetable config-overlay hidden">
       <div class="config-header">
         <i class='bx bx-info-circle info-btn' data-info=".timetable-tool-info" ></i>
-        <h3>Select Default Term</h3>
+        <h3>Select Term</h3>
         <i class='bx bx-x timetable close-btn' data-node="timetable-tool"></i>
       </div>
 
-      <div class="config-vertical">
-        <h3>Find Timetable (experimental)</h3>
-        <div class="config-content more-timetable">
-          <div class="switch-container">
-            <input type="checkbox" id="find-timetable" data-node="timetable-tool" class="toggle-switch"/>
-            <label for="find-timetable" data-node="timetable-tool" class="toggle-switch"></label>
-          </div>
-        </div>
-      </div>
       <div class="timetable config-content">
         
         <!-- Add your configuration options here -->
@@ -372,7 +363,7 @@
         <p class="banner-msg small-ping-warning hidden">Reaction times are never 100% accurate, and may vary from one device to another.<br><br>Absolute minimum deviation of +/-<span class='highlight'>1</span>ms.</p>
         <p class="banner-msg chaos-ping-warning hidden">Longer reaction times are inconsistent, and result in higher latency.<br><br>Minimum deviation of +/-<span class='highlight'>10</span>ms.</p>
         <p class="banner-msg no-timetable-found hidden">No Timetable Found.</p>
-        <p class="banner-msg timetable-tool-info hidden"><span class="highlight2">Timetable Tool</span><br><span class="highlight">Downloads</span> the active timetable as a <span class="highlight">calendar-ready (.ics) file</span>. For best results, start the tool with the <a href="https://central.carleton.ca/prod/bwskfshd.P_CrseSchdDetl" target="_blank" class="underline highlight interact">Student Detail Schedule</a>(timetable) open.<br><br><span class="highlight2">Find Timetable (Experimental)</span><br>Sparkling H2O2 will attempt to navigate itself to the pre-selected timetable. Low success rate due to the inconsistency of the University's website.</p>
+        <p class="banner-msg timetable-tool-info hidden"><span class="highlight">Downloads</span> the selected term timetable as a <span class="highlight">calendar-ready (.ics) file</span>.</p>
         <p class="banner-msg reaction-time-info hidden"><span class="highlight">Response times are approximate</span> and may vary between devices. Random variations of up to +/-<span class="highlight">30ms</span> are to be expected.<br><br><span class="highlight">Hardware specs and performance may result in additional deviations.</span></p>
       </div>
       <div class="banner-footer">

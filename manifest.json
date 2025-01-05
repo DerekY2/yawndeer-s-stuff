@@ -7,7 +7,7 @@
   
   "short_name": "Sparkling H2O2",
 
-  "version": "0.2.1.6",
+  "version": "0.2.2.0",
   
   "description": "Collection of projects",
 
@@ -17,7 +17,7 @@
     "128": "images/sky-icon.png"
   },
 
-  "permissions": ["scripting", "storage", "activeTab"],
+  "permissions": ["scripting", "storage", "activeTab", "webNavigation"],
 
   "host_permissions": ["<all_urls>"],
 
@@ -47,7 +47,7 @@
       "images/*",
       "javascripts/*",
       "styles/*",
-      "armory/"
+      "armory/*"
     ],
     "matches": ["<all_urls>"]
   }]

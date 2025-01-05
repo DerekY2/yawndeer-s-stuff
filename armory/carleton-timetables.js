@@ -5,7 +5,7 @@
 //   ottawa
 //   waterloo
 // ```
-//console.log('im here')
+// console.log('im here')
 chrome.storage.local.get(['carleton'],(results)=>{
   var r;
   if(!results){
@@ -17,6 +17,8 @@ chrome.storage.local.get(['carleton'],(results)=>{
   //console.log('IM HERE')
   const termSelector = document.getElementById('term_id')
   const BIG_FAT_HEADER = 'body > div.pagetitlediv > table > tbody > tr:nth-child(1) > td:nth-child(1) > h2'
+  const timetableNav = 'body > div.footerlinksdiv > span > map > p:nth-child(2) > a:nth-child(2)'
+  const calendarNav = 'body > div.pagebodydiv > table.menuplaintable > tbody > tr:nth-child(3) > td:nth-child(2) > span > ul > li:nth-child(1) > a:nth-child(4)'
   const targetTerm = r[1]+r[0]
   const submitBtn = document.querySelector('input[type=submit]')
   const tableElement ='table.datadisplaytable[summary="This table lists the scheduled meeting times and assigned instructors for this class.."]'
@@ -24,31 +26,42 @@ chrome.storage.local.get(['carleton'],(results)=>{
   
 
   if(document.title.trim()=='Sign In'){
-    chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
-  }else if(document.title.trim()=='Registration Term'){
-    if(auto){
-      chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
-      waitForElm('#term_id').then(()=>{
-        //console.log('termSelector found')
-        termSelector.value=targetTerm
-        submitBtn.click()
-      }).then(
-        waitForElmText(BIG_FAT_HEADER,text).then((elm) => {
-          //console.log(elm.textContent);
-          run()
-        })
-      )
-    }else{
-      //console.log('NOT in auto')
-      alert('\nRequest failed: No Term Selected\n\nSparkling H2O2')
-    }
-  }else if(document.title.trim()=='Student Detail Schedule'){
+    // chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
+  }
+  else if(document.title.trim()=='Sign out'){
+    // chrome.runtime.sendMessage({action:'redirect', href:'https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd'})
+    window.location.href='https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd'
+  }
+  else if(document.title.trim()=='Main Menu'){
+    waitForElmText(calendarNav,'Student Timetable').then(
+      document.querySelector(calendarNav).click()
+    )
+  }
+  else if(document.title.trim()=='Student Timetable'){
+    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'student-calendar', tab:tab[0],script:'armory/carleton-timetable.js'})
+    waitForElmText(timetableNav,'Detail Schedule').then(
+      document.querySelector(timetableNav).click()
+    )
+  }
+  else if(document.title.trim()=='Registration Term'){
+    // chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
+    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'student-calendar', tab:tab[0],script:'armory/carleton-timetable.js'})
+    waitForElm('#term_id').then(()=>{
+      //console.log('termSelector found')
+      termSelector.value=targetTerm
+      submitBtn.click()
+    })
+  }
+  else if(document.title.trim()=='Student Detail Schedule'){
     chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
     waitForElm(BIG_FAT_HEADER).then((elm) => {
       //console.log('Timetable Loaded');
       //console.log(elm.textContent);
       run()
     })
+  }
+  else{
+    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'sign-in', tab:tab[0], script:'armory/carleton-timetable.js'})
   }
 
   // function waitForElement(tag, text, callback) {
@@ -329,6 +342,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
     ];
     
     createICal(timetable);
+    chrome.runtime.sendMessage({action:'end-timetable-request'})
     chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
   }
 

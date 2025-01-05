@@ -50,10 +50,6 @@ const loader={
   'carleton':(e)=> carleton.loader(e)
 }
 
-const toggle={
-  'timetable-tool':(e)=>timetable.toggle(e)
-}
-
 // click listener & menu toggle - Interface.nodes
 Interface.nodes.forEach(node => {
   node.addEventListener("click", (e)=>{
@@ -174,13 +170,6 @@ Overlays.sliders.forEach(s=>{
 Overlays.sliderInputs.forEach(i=>{
   i.addEventListener('input',()=>{
     syncInput[i.dataset.node]()
-  })
-})
-
-Overlays.switches.forEach(i=>{
-  i.addEventListener('input',()=>{
-    toggle[i.dataset.node](i.checked)
-    //console.log("toggled")
   })
 })
 
