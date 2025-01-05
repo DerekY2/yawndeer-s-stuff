@@ -121,7 +121,6 @@ Interface.changePopupBtn.addEventListener('click',()=>{
 
 Interface.configBtns.forEach(btn => {
   btn.addEventListener("click", (e) => {
-    e.preventDefault();
     e.stopPropagation();
     //console.log(e)
     let configNode = btn.dataset.node
@@ -130,6 +129,26 @@ Interface.configBtns.forEach(btn => {
     // openOverlay(configNode, btn)
   });
 });
+
+Interface.nodeLists.forEach(b=>{
+  b.addEventListener('mousedown', (e) => {
+    // Check if the clicked element is the config-container or its child
+    if (!e.target.closest('.config-btn')) {
+      e.preventDefault()
+      // Add the active class to scale and change color
+      b.classList.add('force-active');
+    }
+  });
+
+  b.addEventListener('mouseup', () => {
+    // Remove the active class when the mouse button is released
+    b.classList.remove('force-active');
+  });
+  b.addEventListener('mouseleave', () => {
+    // Remove the active class when the mouse leaves the element
+    b.classList.remove('force-active');
+  });
+})
 
 Overlays.infoBtns.forEach(btn=>{
   btn.addEventListener('click',e=>{

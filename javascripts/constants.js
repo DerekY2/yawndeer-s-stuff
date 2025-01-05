@@ -6,6 +6,7 @@ class Interface {
   static staticNodes = document.querySelectorAll(".node.static.config");
   static nodeSelectors = document.querySelectorAll(".selector");
   static configBtns = document.querySelectorAll(".config-btn");
+  static nodeLists = document.querySelectorAll('.sub-menu a')
   // Footer
   static changePopupBtn = document.querySelector('.change-logo-btn');
   static showUpdates = document.querySelector('.show-version-details');
