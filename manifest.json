@@ -7,7 +7,7 @@
   
   "short_name": "Sparkling H2O2",
 
-  "version": "0.2.2.2",
+  "version": "0.2.2.4",
   
   "description": "Collection of projects",
 
@@ -33,12 +33,7 @@
     "default_icon": "images/sky-icon.png",
     "default_popup": "popup.html"
   },
-
-  "options_ui":{
-    "page": "config.html",
-    "open_in_tab": true
-  },
-
+  
   "web_accessible_resources": [{
     "resources": [
       "*.html",
