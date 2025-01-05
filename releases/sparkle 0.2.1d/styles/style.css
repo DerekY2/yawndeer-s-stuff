@@ -333,11 +333,12 @@ body {
   transform: scale(1.05);
 }
 
-.panel .nav-links li .sub-menu a.force-active{
+.panel .nav-links li .sub-menu a:active:not(:has(*:hover)){
   transition: all 0.04s ease;
   background: linear-gradient(to right, #7e75e6, rgba(126, 117, 230, 0)); /* Add gradient on hover */
   transform: scale(1.02);
 }
+
 
 .panel.inactive .nav-links li .sub-menu{
   position: absolute;
@@ -546,7 +547,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding-top: 10px;
+  /* padding-top: 10px; */
 }
 
 .config-footer {

@@ -6,7 +6,6 @@ class Interface {
   static staticNodes = document.querySelectorAll(".node.static.config");
   static nodeSelectors = document.querySelectorAll(".selector");
   static configBtns = document.querySelectorAll(".config-btn");
-  static nodeLists = document.querySelectorAll('.sub-menu a')
   // Footer
   static changePopupBtn = document.querySelector('.change-logo-btn');
   static showUpdates = document.querySelector('.show-version-details');
@@ -51,7 +50,7 @@ class TimetableTool {
   static yearSelect = document.getElementById("year-select");
   static overlay = document.querySelector(".timetable.config-overlay");
   static schoolSelect = document.getElementById("school-select");
-  static exportMode = document.getElementById('export-mode')
+  static findTimetable = document.getElementById('find-timetable')
 }
 
 class Banners {
@@ -61,10 +60,6 @@ class Banners {
   static ok = document.querySelector('.banner-ok-btn');
   static screen = document.querySelector(".banner-screen");
 }
-
-// class Registry{
-//   static carletonURLs = ['https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd', 'https://central.carleton.ca/prod/bwskfshd.P_CrseSchd', 'https://central.carleton.ca/prod/bwskfshd.P_CrseSchdDetl', 'armory/carleton-timetables.js']
-// }
 
 export {
   Interface,

@@ -5,7 +5,7 @@
 //   ottawa
 //   waterloo
 // ```
-// console.log('im here')
+//console.log('im here')
 chrome.storage.local.get(['carleton'],(results)=>{
   var r;
   if(!results){
@@ -17,55 +17,38 @@ chrome.storage.local.get(['carleton'],(results)=>{
   //console.log('IM HERE')
   const termSelector = document.getElementById('term_id')
   const BIG_FAT_HEADER = 'body > div.pagetitlediv > table > tbody > tr:nth-child(1) > td:nth-child(1) > h2'
-  const timetableNav = 'body > div.footerlinksdiv > span > map > p:nth-child(2) > a:nth-child(2)'
-  const calendarNav = 'body > div.pagebodydiv > table.menuplaintable > tbody > tr:nth-child(3) > td:nth-child(2) > span > ul > li:nth-child(1) > a:nth-child(4)'
   const targetTerm = r[1]+r[0]
-  const exportCombined = r[2]
   const submitBtn = document.querySelector('input[type=submit]')
   const tableElement ='table.datadisplaytable[summary="This table lists the scheduled meeting times and assigned instructors for this class.."]'
+  const auto = r[2]
+  
 
   if(document.title.trim()=='Sign In'){
-    // chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
-  }
-  else if(document.title.trim()=='Sign out'){
-    // chrome.runtime.sendMessage({action:'redirect', href:'https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd'})
-    window.location.href='https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd'
-  }
-  else if(document.title.trim()=='Main Menu'){
-    waitForElmText(calendarNav,'Student Timetable').then(
-      document.querySelector(calendarNav).click()
-    )
-  }
-  else if(document.title.trim()=='Student Timetable'){
-    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'student-calendar', tab:tab[0],script:'armory/carleton-timetable.js'})
-    waitForElmText(timetableNav,'Detail Schedule').then(
-      document.querySelector(timetableNav).click()
-    )
-  }
-  else if(document.title.trim()=='Registration Term'){
-    // chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
-    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'student-calendar', tab:tab[0],script:'armory/carleton-timetable.js'})
-    waitForElm('#term_id').then(()=>{
-      //console.log('termSelector found')
-      if (isValidTerm(termSelector, targetTerm)) {
-        termSelector.value = targetTerm;
-        submitBtn.click();
-      } else {
-        alert('Request failed: Term Not Found\n\nSparkling H2O2')
-        // Handle the error (e.g., show a message to the user)
-      }
-    })
-  }
-  else if(document.title.trim()=='Student Detail Schedule'){
+    chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
+  }else if(document.title.trim()=='Registration Term'){
+    if(auto){
+      chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
+      waitForElm('#term_id').then(()=>{
+        //console.log('termSelector found')
+        termSelector.value=targetTerm
+        submitBtn.click()
+      }).then(
+        waitForElmText(BIG_FAT_HEADER,text).then((elm) => {
+          //console.log(elm.textContent);
+          run()
+        })
+      )
+    }else{
+      //console.log('NOT in auto')
+      alert('\nRequest failed: No Term Selected\n\nSparkling H2O2')
+    }
+  }else if(document.title.trim()=='Student Detail Schedule'){
     chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
     waitForElm(BIG_FAT_HEADER).then((elm) => {
       //console.log('Timetable Loaded');
       //console.log(elm.textContent);
       run()
     })
-  }
-  else{
-    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'sign-in', tab:tab[0], script:'armory/carleton-timetable.js'})
   }
 
   // function waitForElement(tag, text, callback) {
@@ -128,16 +111,6 @@ chrome.storage.local.get(['carleton'],(results)=>{
       )
     ]);
   }
-
-  function isValidTerm(termSelector, targetTerm) {
-    const options = termSelector.options;
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].value == targetTerm) {
-        return true;
-      }
-    }
-    return false;
-  }  
 
   
 
@@ -213,149 +186,74 @@ chrome.storage.local.get(['carleton'],(results)=>{
 
     function createICal(timetable) {
       //console.log('Creating iCal with timetable:', timetable);
-      
-      if(exportCombined){
-        let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//SparklingH2O2//CU_Timetable//EN\n';
-        var count=0;
-        timetable.forEach(node => {
-          //console.log('Processing node:', node);
-          node.startDate = adjustStartDateToDay(new Date(node.startDate), node.daysOfTheWeek);
-          const daysMap = {
-            'M': 'MO',
-            'T': 'TU',
-            'W': 'WE',
-            'R': 'TH',
-            'F': 'FR'
-          };
-      
-          //console.log('unconverted time: ', node.classStartTime, 'end:', node.classEndTime);
-          const startTime = node.classStartTime=='N/A'?'none':convertTo24Hour(node.classStartTime).split(':');
-          const endTime = node.classEndTime=='N/A'?'none':convertTo24Hour(node.classEndTime).split(':');
-          //console.log('converted to 24 hours:', startTime, 'end:', endTime);
-          const startHour = parseInt(startTime[0], 10);
-          const startMinute = parseInt(startTime[1], 10);
-          const endHour = parseInt(endTime[0], 10);
-          const endMinute = parseInt(endTime[1], 10);
-          const timeNoSpace = node.classStartTime.replace(/\s/g, '');
-          const timeNoSpace2 = node.classEndTime.replace(/\s/g, '');
-          var dayList = []
-          node.daysOfTheWeek.split('').forEach(day => {
-            //console.log('day:', day);
-            const dayOfWeek = daysMap[day];
-            dayList.push(dayOfWeek)
-          });
-          if (dayList && startTime!='none') {
-            const startDate = new Date(node.startDate);
-            const endDate = new Date(node.startDate); // Use the same start date for DTEND
-            const untilDate = new Date(node.endDate);
-            untilDate.setDate(untilDate.getDate() + 1);
-  
-            startDate.setUTCHours(startHour, startMinute, 0, 0);
-            endDate.setUTCHours(endHour, endMinute, 0, 0);
-  
-            //console.log(`Creating event for ${node.courseName} on ${dayList}`);
-            //console.log(`Start Date: ${startDate}`);
-            //console.log(`End Date: ${endDate}`);
-  
-            icsContent += 'BEGIN:VEVENT\n';
-            icsContent += `DTSTART;TZID=America/Toronto:${formatDateLocal(startDate)}\n`;
-            icsContent += `DTEND;TZID=America/Toronto:${formatDateLocal(endDate)}\n`;
-            icsContent += `RRULE:FREQ=WEEKLY;BYDAY=${dayList.join(',')};UNTIL=${formatDateUTC(untilDate)};WKST=SU;\n`;
-            icsContent += `SUMMARY:${node.courseCode}-${node.courseSection}\n`;
-            icsContent += `DESCRIPTION:${node.courseName}\\n${node.courseCode} - ${node.courseSection}\\n${node.instructor}\\n${node.crn}\\n${timeNoSpace} - ${timeNoSpace2}\\n${node.location?node.location:'Location: N/A'}\n`;
-            icsContent += `LOCATION:${node.location}\n`;
-            icsContent += 'END:VEVENT\n';
-            count++
-          }
+      let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//SparklingH2O2//CU_Timetable//EN\n';
+      var count=0;
+      timetable.forEach(node => {
+        //console.log('Processing node:', node);
+        node.startDate = adjustStartDateToDay(new Date(node.startDate), node.daysOfTheWeek);
+        const daysMap = {
+          'M': 'MO',
+          'T': 'TU',
+          'W': 'WE',
+          'R': 'TH',
+          'F': 'FR'
+        };
+    
+        //console.log('unconverted time: ', node.classStartTime, 'end:', node.classEndTime);
+        const startTime = node.classStartTime=='N/A'?'none':convertTo24Hour(node.classStartTime).split(':');
+        const endTime = node.classEndTime=='N/A'?'none':convertTo24Hour(node.classEndTime).split(':');
+        //console.log('converted to 24 hours:', startTime, 'end:', endTime);
+        const startHour = parseInt(startTime[0], 10);
+        const startMinute = parseInt(startTime[1], 10);
+        const endHour = parseInt(endTime[0], 10);
+        const endMinute = parseInt(endTime[1], 10);
+        const timeNoSpace = node.classStartTime.replace(/\s/g, '');
+        const timeNoSpace2 = node.classEndTime.replace(/\s/g, '');
+        var dayList = []
+        node.daysOfTheWeek.split('').forEach(day => {
+          //console.log('day:', day);
+          const dayOfWeek = daysMap[day];
+          dayList.push(dayOfWeek)
         });
-        icsContent += 'END:VCALENDAR';
-        //console.log('iCal content generated:', icsContent);
-        if(count>0){
-          const blob = new Blob([icsContent], { type: 'text/calendar' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = userInfo2+'.ics';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        }else{
-          alert('Nothing to see here...\n\nSparkling H2O2')
+        if (dayList && startTime!='none') {
+          const startDate = new Date(node.startDate);
+          const endDate = new Date(node.startDate); // Use the same start date for DTEND
+          const untilDate = new Date(node.endDate);
+          untilDate.setDate(untilDate.getDate() + 1);
+
+          startDate.setUTCHours(startHour, startMinute, 0, 0);
+          endDate.setUTCHours(endHour, endMinute, 0, 0);
+
+          //console.log(`Creating event for ${node.courseName} on ${dayList}`);
+          //console.log(`Start Date: ${startDate}`);
+          //console.log(`End Date: ${endDate}`);
+
+          icsContent += 'BEGIN:VEVENT\n';
+          icsContent += `DTSTART;TZID=America/Toronto:${formatDateLocal(startDate)}\n`;
+          icsContent += `DTEND;TZID=America/Toronto:${formatDateLocal(endDate)}\n`;
+          icsContent += `RRULE:FREQ=WEEKLY;BYDAY=${dayList.join(',')};UNTIL=${formatDateUTC(untilDate)};WKST=SU;\n`;
+          icsContent += `SUMMARY:${node.courseCode}-${node.courseSection}\n`;
+          icsContent += `DESCRIPTION:${node.courseName}\\n${node.courseCode} - ${node.courseSection}\\n${node.instructor}\\n${node.crn}\\n${timeNoSpace} - ${timeNoSpace2}\\n${node.location?node.location:'Location: N/A'}\n`;
+          icsContent += `LOCATION:${node.location}\n`;
+          icsContent += 'END:VEVENT\n';
+          count++
         }
-      }
-      else{
-        var totalCount=0
-        timetable.forEach(node => {
-          let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//SparklingH2O2//Timetable//EN\n';
-          var count=0;
-          //console.log('Processing node:', node);
-          node.startDate = adjustStartDateToDay(new Date(node.startDate), node.daysOfTheWeek);
-          const daysMap = {
-            'M': 'MO',
-            'T': 'TU',
-            'W': 'WE',
-            'R': 'TH',
-            'F': 'FR'
-          };
-      
-          //console.log('unconverted time: ', node.classStartTime, 'end:', node.classEndTime);
-          const startTime = node.classStartTime=='N/A'?'none':convertTo24Hour(node.classStartTime).split(':');
-          const endTime = node.classEndTime=='N/A'?'none':convertTo24Hour(node.classEndTime).split(':');
-          //console.log('converted to 24 hours:', startTime, 'end:', endTime);
-          const startHour = parseInt(startTime[0], 10);
-          const startMinute = parseInt(startTime[1], 10);
-          const endHour = parseInt(endTime[0], 10);
-          const endMinute = parseInt(endTime[1], 10);
-          const timeNoSpace = node.classStartTime.replace(/\s/g, '');
-          const timeNoSpace2 = node.classEndTime.replace(/\s/g, '');
-          var dayList = []
-          node.daysOfTheWeek.split('').forEach(day => {
-            //console.log('day:', day);
-            const dayOfWeek = daysMap[day];
-            dayList.push(dayOfWeek)
-          });
-          if (dayList && startTime!='none') {
-            const startDate = new Date(node.startDate);
-            const endDate = new Date(node.startDate); // Use the same start date for DTEND
-            const untilDate = new Date(node.endDate);
-            untilDate.setDate(untilDate.getDate() + 1);
-  
-            startDate.setUTCHours(startHour, startMinute, 0, 0);
-            endDate.setUTCHours(endHour, endMinute, 0, 0);
-  
-            //console.log(`Creating event for ${node.courseName} on ${dayList}`);
-            //console.log(`Start Date: ${startDate}`);
-            //console.log(`End Date: ${endDate}`);
-  
-            icsContent += 'BEGIN:VEVENT\n';
-            icsContent += `DTSTART;TZID=America/Toronto:${formatDateLocal(startDate)}\n`;
-            icsContent += `DTEND;TZID=America/Toronto:${formatDateLocal(endDate)}\n`;
-            icsContent += `RRULE:FREQ=WEEKLY;BYDAY=${dayList.join(',')};UNTIL=${formatDateUTC(untilDate)};WKST=SU;\n`;
-            icsContent += `SUMMARY:${node.courseCode}-${node.courseSection}\n`;
-            icsContent += `DESCRIPTION:${node.courseName}\\n${node.courseCode} - ${node.courseSection}\\n${node.instructor}\\n${node.crn}\\n${timeNoSpace} - ${timeNoSpace2}\\n${node.location?node.location:'Location: N/A'}\n`;
-            icsContent += `LOCATION:${node.location}\n`;
-            icsContent += 'END:VEVENT\n';
-            count++
-            totalCount++
-          }
-          icsContent += 'END:VCALENDAR';
-          //console.log('iCal content generated:', icsContent);
-          if(count>0){
-            const blob = new Blob([icsContent], { type: 'text/calendar' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${node.courseCode}-${node.courseSection}`+'.ics';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-          }
-        });
-        if(totalCount<=0){
-          alert('No classes found\n\nSparkling H2O2')
-        }
+      });
+    
+      icsContent += 'END:VCALENDAR';
+      //console.log('iCal content generated:', icsContent);
+      if(count>0){
+        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = userInfo2+'.ics';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }else{
+        alert('Nothing to see here...\n\nSparkling H2O2')
       }
     }
 
@@ -431,7 +329,6 @@ chrome.storage.local.get(['carleton'],(results)=>{
     ];
     
     createICal(timetable);
-    chrome.runtime.sendMessage({action:'end-timetable-request'})
     chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
   }
 
@@ -459,6 +356,6 @@ chrome.storage.local.get(['carleton'],(results)=>{
       console.error("ERROR: month not found. Default term is set to:", term, year);
     }
     //console.log("Default term is set to:", [term, year, false]);
-    return [term, year, true];
+    return [term, year, false];
   }
 })

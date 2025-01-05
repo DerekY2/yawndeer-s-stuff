@@ -9,8 +9,8 @@ function show(btn){
   //console.log('timetable clicked:',btn.dataset.node,'via',btn.dataset.school,'-',btn)
 }
 
-function save(school=TimetableTool.schoolSelect.value, semester=TimetableTool.semesterSelect.value, year=TimetableTool.yearSelect.value, combined=TimetableTool.exportMode.checked){
-  setLocal(school, [semester, year, combined])
+function save(school=TimetableTool.schoolSelect.value, semester=TimetableTool.semesterSelect.value, year=TimetableTool.yearSelect.value, hide=TimetableTool.findTimetable.checked){
+  setLocal(school, [semester, year,hide])
   hideOverlays()
   //console.log('save request processed')
 }
@@ -23,7 +23,8 @@ function refresh(key){
       //console.log('Found -', key, ':', 'semester:', termData[0], 'year:', termData[1]);
       TimetableTool.semesterSelect.value = termData[0];
       TimetableTool.yearSelect.value = termData[1];
-      TimetableTool.exportMode.checked = termData[2]==undefined?true:termData[2]
+      TimetableTool.findTimetable.checked = termData[2]==undefined?false:termData[2]
+      toggle(termData[2])
       setState(key, [TimetableTool.semesterSelect.value, TimetableTool.yearSelect.value])
       //console.log('Set term/year to:', TimetableTool.semesterSelect.value, '/', TimetableTool.yearSelect.value);
     } else {
@@ -64,7 +65,8 @@ function reset(){
   //console.log('Using default term:', defaultTerm);
   TimetableTool.semesterSelect.value = defaultTerm[0];
   TimetableTool.yearSelect.value = defaultTerm[1];
-  TimetableTool.exportMode.checked = defaultTerm[2]==undefined?true:defaultTerm[2]
+  TimetableTool.findTimetable.checked = defaultTerm[2]==undefined?false:defaultTerm[2]
+  toggle(TimetableTool.findTimetable.checked)
   //console.log('New term:', [TimetableTool.semesterSelect.value, TimetableTool.yearSelect.value, TimetableTool.findTimetable.checked]);
   return defaultTerm
 }
@@ -86,11 +88,21 @@ function getDefaultTerm() {
     year = String(Number(year) + 1);
   } else {
     term = '10';
-    console.error("ERROR: month not found. Default term is set to:", term, year, true);
+    console.error("ERROR: month not found. Default term is set to:", term, year, false);
   }
 
   //console.log("Default term is set to:", [term, year, false]);
-  return [term, year, true];
+  return [term, year, false];
+}
+
+function toggle(val){
+  if(val){
+    document.querySelector('.timetable.config-content').classList.remove('test')
+  }
+  else{
+    document.querySelector('.timetable.config-content').classList.add('test')
+  }
+  //console.log('toggled:',val)
 }
 
 function close(){
@@ -104,4 +116,4 @@ function init(){
   // refresh('waterloo')
 }
 
-export { save, refresh, reset, close, show, init }
+export { save, refresh, reset, close, show, init, toggle }

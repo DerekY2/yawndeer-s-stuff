@@ -52,7 +52,7 @@
         <ul class="sub-menu">
           <li>
             <a href="#" class="selector carleton require-opened-cu" data-school="carleton" data-url="https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd" data-calendar="https://central.carleton.ca/prod/bwskfshd.P_CrseSchd" data-timetables="https://central.carleton.ca/prod/bwskfshd.P_CrseSchdDetl" data-injection="armory/carleton-timetables.js">
-              <span class="force-active">Carleton</span>                                                                                                                                                                          
+              <span>Carleton</span>                                                                                                                                                                          
               <div class="config-container" data-school="carleton" data-node="timetable-tool">
                 <span class="node-state" data-school="carleton" data-node="timetable-tool">Winter 2025</span>
                 <i class="bx bxs-edit-alt config-btn" data-school="carleton" data-node="timetable-tool"></i>
@@ -195,7 +195,16 @@
         </div>
       </div>
       <div class="version-details">
-        <span class="show-version-details" data-url="https://dereky2.github.io/sparkle-shenanigans/">v0.2.3</span>
+        <span class="show-version-details" data-url="https://dereky2.github.io/sparkle-shenanigans/">v0.2.1</span>
+        <div class="whats-new test">
+          <h3>What's New</h3>
+          <ul>
+            <li>Initial release with basic functionalities.</li>
+            <li>Added Human Benchmark tests.</li>
+            <li>Integrated Spacetime features.</li>
+            <li>Basic settings and profile management.</li>
+          </ul>
+        </div>
       </div>
     </ul>
 
@@ -209,10 +218,19 @@
     <div class="timetable config-overlay hidden">
       <div class="config-header">
         <i class='bx bx-info-circle info-btn' data-info=".timetable-tool-info" ></i>
-        <h3>Select Term</h3>
+        <h3>Select Default Term</h3>
         <i class='bx bx-x timetable close-btn' data-node="timetable-tool"></i>
       </div>
 
+      <div class="config-vertical">
+        <h3>Find Timetable (experimental)</h3>
+        <div class="config-content more-timetable">
+          <div class="switch-container">
+            <input type="checkbox" id="find-timetable" data-node="timetable-tool" class="toggle-switch"/>
+            <label for="find-timetable" data-node="timetable-tool" class="toggle-switch"></label>
+          </div>
+        </div>
+      </div>
       <div class="timetable config-content">
         
         <!-- Add your configuration options here -->
@@ -242,18 +260,6 @@
         </select>
       </div>
       
-      <div class="config-vertical">
-        <h3>Export Mode</h3>
-        <div class="config-content more-timetable">
-          <div class="switch-container">
-            <span class="left-span">Individual</span>
-            <input type="checkbox" id="export-mode" data-node="timetable-tool" class="toggle-switch"/>
-            <label for="export-mode" data-node="timetable-tool" class="toggle-switch"></label>
-            <span>Combined</span>
-          </div>
-        </div>
-      </div>
-
       <div class="config-footer">
         <div class="term-reset-btn config-reset-btn" data-node="timetable-tool"><span>Reset</span></div>
         <div class="term-save-btn config-save-btn" data-node="timetable-tool"><span>Save</span></div>
@@ -351,7 +357,6 @@
         <h3 class="banner-title warning small-ping-warning hidden">Not so fast...</h3>
         <h3 class="banner-title warning chaos-ping-warning hidden">Not so fast...</h3>
         <h3 class="banner-title chimp-activation-info hidden">Activation</h3>
-        <h3 class="banner-title timetable-tool-info hidden">Timetable Tool</h3>
         <h3 class="banner-title warning no-timetable-found hidden">Request failed</h3>
         <h3 class="banner-title reaction-time-info hidden">Disclaimer: Reaction Time</h3>
         <h3 class="banner-title warning chimp-range-warning hidden">Target score out of bounds</h3>
@@ -367,7 +372,7 @@
         <p class="banner-msg small-ping-warning hidden">Reaction times are never 100% accurate, and may vary from one device to another.<br><br>Absolute minimum deviation of +/-<span class='highlight'>1</span>ms.</p>
         <p class="banner-msg chaos-ping-warning hidden">Longer reaction times are inconsistent, and result in higher latency.<br><br>Minimum deviation of +/-<span class='highlight'>10</span>ms.</p>
         <p class="banner-msg no-timetable-found hidden">No Timetable Found.</p>
-        <p class="banner-msg timetable-tool-info hidden">Retrieves and <span class="highlight">downloads</span> the selected term timetable as a standard <span class="highlight">calendar-ready (.ics) file</span>.<br><br><span class="highlight2">Export Mode</span><br><span class="highlight">Combined:</span> Exports the entire term schedule as a single calendar file.<br>(e.g. Winter 2025.ics)<br><span class="highlight">Individual:</span> Each term event is exported and downloaded separately.<br>(e.g. COMP 3106-B.ics)</p>
+        <p class="banner-msg timetable-tool-info hidden"><span class="highlight2">Timetable Tool</span><br><span class="highlight">Downloads</span> the active timetable as a <span class="highlight">calendar-ready (.ics) file</span>. For best results, start the tool with the <a href="https://central.carleton.ca/prod/bwskfshd.P_CrseSchdDetl" target="_blank" class="underline highlight interact">Student Detail Schedule</a>(timetable) open.<br><br><span class="highlight2">Find Timetable (Experimental)</span><br>Sparkling H2O2 will attempt to navigate itself to the pre-selected timetable. Low success rate due to the inconsistency of the University's website.</p>
         <p class="banner-msg reaction-time-info hidden"><span class="highlight">Response times are approximate</span> and may vary between devices. Random variations of up to +/-<span class="highlight">30ms</span> are to be expected.<br><br><span class="highlight">Hardware specs and performance may result in additional deviations.</span></p>
       </div>
       <div class="banner-footer">
