@@ -12,7 +12,7 @@ Sparkling H2O2 is a Chrome extension that provides a collection of experimental 
 
 ### From the Chrome Web Store
 
-1. Find the extension <a href="https://chromewebstore.google.com/detail/sparkling-h2o2/dolaidlinopdijhbmholdeilalbedhjm" target="_blank">on the Chrome Web Store</a>.
+1. Find the extension on <a href="https://chromewebstore.google.com/detail/sparkling-h2o2/dolaidlinopdijhbmholdeilalbedhjm" target="_blank">the Chrome Web Store</a>.
 3. Click "Add to Chrome".
 
 ### Manual (Locally)
