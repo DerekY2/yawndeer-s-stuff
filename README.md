@@ -12,7 +12,7 @@ Sparkling H2O2 is a Chrome extension that provides a collection of tools and fea
 
 ### From the Chrome Web Store
 
-1. Go to the [Chrome Web Store](https://chromewebstore.google.com/detail/sparkling-h2o2/dolaidlinopdijhbmholdeilalbedhjm).
+1. Find the extension <a href="https://chromewebstore.google.com/detail/sparkling-h2o2/dolaidlinopdijhbmholdeilalbedhjm" target="_blank">on the Chrome Web Store</a>.
 3. Click "Add to Chrome".
 
 ### Manual (Locally)
