@@ -46,7 +46,7 @@ class ChimpTest {
   static autoSwitch = document.querySelector('#wait-for-first-click');
 }
 
-class TimetableTool {
+class TimetableTools {
   static semesterSelect = document.getElementById("semester-select");
   static yearSelect = document.getElementById("year-select");
   static overlay = document.querySelector(".timetable.config-overlay");
@@ -71,6 +71,6 @@ export {
   Overlays,
   ReactionTime,
   ChimpTest,
-  TimetableTool,
+  TimetableTools,
   Banners
 };

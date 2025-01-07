@@ -1,15 +1,15 @@
 import { setLocal, hideOverlays } from './popup.js'
-import { TimetableTool, Overlays } from './constants.js';
+import { TimetableTools, Overlays } from './constants.js';
 
 function show(btn){
-  TimetableTool.schoolSelect.value = btn.dataset.school;
-  refresh(TimetableTool.schoolSelect.value)
-  TimetableTool.overlay.classList.remove('hidden')
+  TimetableTools.schoolSelect.value = btn.dataset.school;
+  refresh(TimetableTools.schoolSelect.value)
+  TimetableTools.overlay.classList.remove('hidden')
   Overlays.darkScreen.classList.remove("hidden");
   //console.log('timetable clicked:',btn.dataset.node,'via',btn.dataset.school,'-',btn)
 }
 
-function save(school=TimetableTool.schoolSelect.value, semester=TimetableTool.semesterSelect.value, year=TimetableTool.yearSelect.value, combined=TimetableTool.exportMode.checked){
+function save(school=TimetableTools.schoolSelect.value, semester=TimetableTools.semesterSelect.value, year=TimetableTools.yearSelect.value, combined=TimetableTools.exportMode.checked){
   setLocal(school, [semester, year, combined])
   hideOverlays()
   //console.log('save request processed')
@@ -21,11 +21,11 @@ function refresh(key){
     //console.log('Getting:', key, ':', termData);
     if (termData) {
       //console.log('Found -', key, ':', 'semester:', termData[0], 'year:', termData[1]);
-      TimetableTool.semesterSelect.value = termData[0];
-      TimetableTool.yearSelect.value = termData[1];
-      TimetableTool.exportMode.checked = termData[2]==undefined?true:termData[2]
-      setState(key, [TimetableTool.semesterSelect.value, TimetableTool.yearSelect.value])
-      //console.log('Set term/year to:', TimetableTool.semesterSelect.value, '/', TimetableTool.yearSelect.value);
+      TimetableTools.semesterSelect.value = termData[0];
+      TimetableTools.yearSelect.value = termData[1];
+      TimetableTools.exportMode.checked = termData[2]==undefined?true:termData[2]
+      setState(key, [TimetableTools.semesterSelect.value, TimetableTools.yearSelect.value])
+      //console.log('Set term/year to:', TimetableTools.semesterSelect.value, '/', TimetableTools.yearSelect.value);
     } else {
       setState(key, reset());
       save()
@@ -62,10 +62,10 @@ function setState(school, term) {
 function reset(){
   const defaultTerm = getDefaultTerm();
   //console.log('Using default term:', defaultTerm);
-  TimetableTool.semesterSelect.value = defaultTerm[0];
-  TimetableTool.yearSelect.value = defaultTerm[1];
-  TimetableTool.exportMode.checked = defaultTerm[2]==undefined?true:defaultTerm[2]
-  //console.log('New term:', [TimetableTool.semesterSelect.value, TimetableTool.yearSelect.value, TimetableTool.findTimetable.checked]);
+  TimetableTools.semesterSelect.value = defaultTerm[0];
+  TimetableTools.yearSelect.value = defaultTerm[1];
+  TimetableTools.exportMode.checked = defaultTerm[2]==undefined?true:defaultTerm[2]
+  //console.log('New term:', [TimetableTools.semesterSelect.value, TimetableTools.yearSelect.value, TimetableTools.findTimetable.checked]);
   return defaultTerm
 }
 
@@ -94,7 +94,7 @@ function getDefaultTerm() {
 }
 
 function close(){
-  TimetableTool.overlay.classList.add('hidden')
+  TimetableTools.overlay.classList.add('hidden')
   Overlays.darkScreen.classList.add('hidden')
 }
 

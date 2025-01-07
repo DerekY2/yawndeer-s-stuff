@@ -1,10 +1,3 @@
-// ```
-// data: [sem,year] --> [30=fall,20=summer,10=winter],2025
-// keys:
-//   carleton
-//   ottawa
-//   waterloo
-// ```
 // console.log('im here')
 chrome.storage.local.get(['carleton'],(results)=>{
   var r;
@@ -22,13 +15,9 @@ chrome.storage.local.get(['carleton'],(results)=>{
   const targetTerm = r[1]+r[0]
   const exportCombined = r[2]
   const submitBtn = document.querySelector('input[type=submit]')
-  const tableElement ='table.datadisplaytable[summary="This table lists the scheduled meeting times and assigned instructors for this class.."]'
-
   if(document.title.trim()=='Sign In'){
-    // chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
   }
   else if(document.title.trim()=='Sign out'){
-    // chrome.runtime.sendMessage({action:'redirect', href:'https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd'})
     window.location.href='https://ssoman.carleton.ca/ssomanager/c/SSB?pkg=bwskfshd.P_CrseSchd'
   }
   else if(document.title.trim()=='Main Menu'){
@@ -36,22 +25,19 @@ chrome.storage.local.get(['carleton'],(results)=>{
       document.querySelector(calendarNav).click()
     )
   }
-  else if(document.title.trim()=='Student Timetable'){
-    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'student-calendar', tab:tab[0],script:'armory/carleton-timetable.js'})
+  else if(document.title.trim()=='Student Timetable'){  
     waitForElmText(timetableNav,'Detail Schedule').then(
       document.querySelector(timetableNav).click()
     )
   }
   else if(document.title.trim()=='Registration Term'){
-    // chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempLoginCU'})
-    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'student-calendar', tab:tab[0],script:'armory/carleton-timetable.js'})
     waitForElm('#term_id').then(()=>{
       //console.log('termSelector found')
       if (isValidTerm(termSelector, targetTerm)) {
         termSelector.value = targetTerm;
         submitBtn.click();
       } else {
-        alert('Request failed: Term Not Found\n\nSparkling H2O2')
+        alert(`Request failed: Term [${mapTerm(r)}] Not Found\n\nSparkling H2O2`)
         // Handle the error (e.g., show a message to the user)
       }
     })
@@ -65,33 +51,14 @@ chrome.storage.local.get(['carleton'],(results)=>{
     })
   }
   else{
-    // chrome.runtime.sendMessage({action:'timetable1', node:'carleton', case:'sign-in', tab:tab[0], script:'armory/carleton-timetable.js'})
   }
 
-  // function waitForElement(tag, text, callback) {
-  //   //console.log('wait requested')
-  //   const observer = new MutationObserver((mutations, observer) => {
-  //     const element = Array.from(document.getElementsByTagName(tag)).find(el => el.textContent.trim() === text);
-  //     if (element) {
-  //       //console.log('object detected')
-  //       callback();
-  //       observer.disconnect();
-  //     }
-  //   });
-
-  // observer.observe(document.body, { childList: true, subtree: true });
-    
-  //   const termSelector = document.getElementById('term_id')
-    //console.log(r,'\n',targetTerm,'\n',termSelector)
-  
-  //   waitForElement('h2', 'Student Detail Schedule', run);
   function waitForElm(selector) {
     return new Promise(resolve => {
       //console.log('waiting for',selector,'...')
         if (document.querySelector(selector)) {
             return resolve(document.querySelector(selector));
         }
-
         const observer = new MutationObserver(mutations => {
             if (document.querySelector(selector)) {
                 observer.disconnect();
@@ -99,7 +66,6 @@ chrome.storage.local.get(['carleton'],(results)=>{
             }
         });
 
-        // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
         observer.observe(document.body, {
             childList: true,
             subtree: true
@@ -139,13 +105,10 @@ chrome.storage.local.get(['carleton'],(results)=>{
     return false;
   }  
 
-  
-
   function run(){
     //console.log('running  downloader.')
     const tables = [];
     const log = []
-    const userInfo = document.querySelector('body > div.pagetitlediv > table > tbody > tr:nth-child(1) > td:nth-child(3) > div').textContent.trim().split('')
     const staticHeadersDiv = document.querySelector('.staticheaders')
     const userInfo2 = staticHeadersDiv ? staticHeadersDiv.innerHTML.split('<br>')[1].trim().split(' ').slice(0,2).join(' ') : 'Nameless';
     document.querySelectorAll('table.datadisplaytable').forEach((table, index) => {
@@ -179,11 +142,8 @@ chrome.storage.local.get(['carleton'],(results)=>{
         log.push(meta)
       } else {
         
-        // Must be Scheduled Meeting Times table
         const row = table.querySelector('tr:nth-of-type(2)');
         const cells = row.querySelectorAll('td');
-
-        // scrape data
         section.classStartTime = cells[1].textContent.trim()=='TBA'?'N/A':cells[1].textContent.trim().split(' - ')[0];
         section.classEndTime = cells[1].textContent.trim()=='TBA'?'N/A':cells[1].textContent.trim().split(' - ')[1];
         //console.log('starttimes:',section.classStartTime, section.classEndTime)
@@ -208,9 +168,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
       const row = table.querySelector(`tr:nth-of-type(${rowIndex}) td`);
       return !(row=='') ? row.textContent.trim() : 'N/A';
     }
-
     
-
     function createICal(timetable) {
       //console.log('Creating iCal with timetable:', timetable);
       
@@ -249,14 +207,11 @@ chrome.storage.local.get(['carleton'],(results)=>{
             const endDate = new Date(node.startDate); // Use the same start date for DTEND
             const untilDate = new Date(node.endDate);
             untilDate.setDate(untilDate.getDate() + 1);
-  
             startDate.setUTCHours(startHour, startMinute, 0, 0);
             endDate.setUTCHours(endHour, endMinute, 0, 0);
-  
             //console.log(`Creating event for ${node.courseName} on ${dayList}`);
             //console.log(`Start Date: ${startDate}`);
             //console.log(`End Date: ${endDate}`);
-  
             icsContent += 'BEGIN:VEVENT\n';
             icsContent += `DTSTART;TZID=America/Toronto:${formatDateLocal(startDate)}\n`;
             icsContent += `DTEND;TZID=America/Toronto:${formatDateLocal(endDate)}\n`;
@@ -359,7 +314,6 @@ chrome.storage.local.get(['carleton'],(results)=>{
       }
     }
 
-    // Function to adjust the start date to the first occurrence of the event's day of the week
     function adjustStartDateToDay(startDate, daysOfTheWeek) {
       const daysMap = {
         'M': 1, // Monday
@@ -413,7 +367,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
       return `${hours}:${minutes}`;
     }
     
-    // Example timetable data
+    // Sample timetable data
     const tempTimetable = [
       {
         courseName: "Introduction to Computer Science II",
@@ -429,14 +383,28 @@ chrome.storage.local.get(['carleton'],(results)=>{
         endDate: "2025-04-08T04:00:00.000Z"
       }
     ];
-    
     createICal(timetable);
     chrome.runtime.sendMessage({action:'end-timetable-request'})
     chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
   }
 
-  function delay(ms){
-    return new Promise(resolve => setTimeout(resolve, ms))
+  function mapTerm(term){
+    let sem;
+    switch (term[0]) {
+      case '30':
+        sem = 'Fall';
+        break;
+      case '20':
+        sem = 'Summer';
+        break;
+      case '10':
+        sem = 'Winter';
+        break;
+      default:
+        console.error('Invalid semester code:', term[0]);
+        return;
+    }
+    return `${sem} ${term[1]}`
   }
 
   function getDefaultTerm() {
@@ -444,7 +412,6 @@ chrome.storage.local.get(['carleton'],(results)=>{
     const month = currentDate.getMonth() + 1;
     let year = String(currentDate.getFullYear());
     let term;
-  
     if (month >= 1 && month <= 4) {
       term = '10';
     } else if (month >= 5 && month <= 8) {

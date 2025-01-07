@@ -5,21 +5,21 @@ import * as carleton from './carleton-loader.js'
 import { Interface, Overlays, Banners } from './constants.js';
 
 const save = {
-  'timetable-tool': () => timetable.save(),
+  'timetable-tools': () => timetable.save(),
   'reaction-time': () => reactionTime.save(),
   'chimp-test': () => chimpTest.save()
 };
 const reset = {
-  'timetable-tool': () => timetable.reset(),
+  'timetable-tools': () => timetable.reset(),
   'reaction-time': () => reactionTime.reset(),
   'chimp-test': () => chimpTest.reset()
 }
 const preset = {
   'reaction-time': () => reactionTime.setFast(),
-  'timetable-tool': (e) => timetable.refresh(e)
+  'timetable-tools': (e) => timetable.refresh(e)
 }
 const close = {
-  'timetable-tool': () => timetable.close(),
+  'timetable-tools': () => timetable.close(),
   'reaction-time': () => reactionTime.close(),
   'chimp-test': () => chimpTest.close()
 }
@@ -42,7 +42,7 @@ const refresh = {
 }
 
 const show = {
-  'timetable-tool': (e) => timetable.show(e),
+  'timetable-tools': (e) => timetable.show(e),
   'reaction-time': (e) => reactionTime.show(e),
   'chimp-test': (e) => chimpTest.show(e)
 }
