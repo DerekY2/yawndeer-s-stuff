@@ -1,6 +1,6 @@
 ﻿# Sparkling H2O2
 
-Sparkling H2O2 is a Chrome extension that provides a collection of tools and features to enhance your browsing experience. This extension includes functionalities such as timetable management, reaction time tests, and more.
+Sparkling H2O2 is a Chrome extension that provides a collection of experimental web functionalities for timetable exports and automated benchmark tests.
 
 ## Features
 
