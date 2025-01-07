@@ -37,7 +37,8 @@ const refresh = {
   'ottawa': (e) => timetable.refresh(e),
   'waterloo': (e) => timetable.refresh(e),
   'reaction-time': (e) => reactionTime.refresh(),
-  'chimp-test': (e) => chimpTest.refresh()
+  'chimp-test': (e) => chimpTest.refresh(),
+  'popup-icon-src':(e)=>refreshLogo()
 }
 
 const show = {
@@ -278,7 +279,12 @@ function setLocal(key, val){
         else{
           //console.log("Value saved successfully for", key, ":", val);
         }
-        refresh[key](key)
+        try{
+          refresh[key](key)
+        }
+        catch(error){
+          console.error(`REFRESH ERROR:\n${error}`)
+        }
       });
     } else {
       //console.log("No change detected. Value not updated for key:", key);
@@ -313,21 +319,18 @@ function changeLogo(){
     Interface.popupLogo.src=chrome.runtime.getURL('images/Sparkle_Doll.png')
     setLocal('popup-icon-src',['images/Sparkle_Doll.png','images/Sparkle_Doll128.png'])
     chrome.action.setIcon({path:'images/Sparkle_Doll128.png'})
-    refreshLogo()
     //console.log('changed icon tosparkle')
   }else if(Interface.popupLogo.src==chrome.runtime.getURL('images/Sparkle_Doll.png')){
     Interface.popupLogo.src=chrome.runtime.getURL('images/sky-icon.png')
     setLocal('popup-icon-src',['images/sky-icon.png','images/sky-icon128.png'])
     //console.log('changed icon to sky')
     chrome.action.setIcon({path:'images/sky-icon128.png'})
-    refreshLogo()
   }
   else if((Interface.popupLogo.src==chrome.runtime.getURL('images/sky-icon.png'))){
     Interface.popupLogo.src=chrome.runtime.getURL('images/pull-shark.png')
     setLocal('popup-icon-src',['images/pull-shark.png','images/pull-shark128.png'])
     chrome.action.setIcon({path:'images/pull-shark128.png'})
     //console.log('changed icon to pull')
-    refreshLogo()
   }
 }
 
