@@ -38,7 +38,8 @@ chrome.storage.local.get(['carleton'],(results)=>{
         submitBtn.click();
       } else {
         alert(`Request failed: Term [${mapTerm(r)}] Not Found\n\nSparkling H2O2`)
-        // Handle the error (e.g., show a message to the user)
+        chrome.runtime.sendMessage({action:'end-timetable-request'})
+        chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
       }
     })
   }
@@ -111,6 +112,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
     const log = []
     const staticHeadersDiv = document.querySelector('.staticheaders')
     const userInfo2 = staticHeadersDiv ? staticHeadersDiv.innerHTML.split('<br>')[1].trim().split(' ').slice(0,2).join(' ') : 'Nameless';
+    const userInfo3 = staticHeadersDiv ? staticHeadersDiv.innerHTML.split('<br>')[0].trim().split(' ').slice(1).join(' ') : 'Unknown User';
     document.querySelectorAll('table.datadisplaytable').forEach((table, index) => {
       const section = {};
       const meta = {}
@@ -175,6 +177,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
       if(exportCombined){
         let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//SparklingH2O2//CU_Timetable//EN\n';
         var count=0;
+        var allCourses='';
         timetable.forEach(node => {
           //console.log('Processing node:', node);
           node.startDate = adjustStartDateToDay(new Date(node.startDate), node.daysOfTheWeek);
@@ -203,6 +206,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
             dayList.push(dayOfWeek)
           });
           if (dayList && startTime!='none') {
+            const courseInfo = `${node.courseCode} - ${node.courseSection}\n${timeNoSpace} - ${timeNoSpace2}\n${node.location?node.location:'Location: N/A'}\n${node.courseName}\n${node.instructor}\n${node.crn}\n...\n`;
             const startDate = new Date(node.startDate);
             const endDate = new Date(node.startDate); // Use the same start date for DTEND
             const untilDate = new Date(node.endDate);
@@ -212,6 +216,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
             //console.log(`Creating event for ${node.courseName} on ${dayList}`);
             //console.log(`Start Date: ${startDate}`);
             //console.log(`End Date: ${endDate}`);
+            allCourses+=courseInfo;
             icsContent += 'BEGIN:VEVENT\n';
             icsContent += `DTSTART;TZID=America/Toronto:${formatDateLocal(startDate)}\n`;
             icsContent += `DTEND;TZID=America/Toronto:${formatDateLocal(endDate)}\n`;
@@ -238,9 +243,13 @@ chrome.storage.local.get(['carleton'],(results)=>{
         }else{
           alert('Nothing to see here...\n\nSparkling H2O2')
         }
+        const currentDate = new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: false });
+        logCalendar([userInfo3, currentDate, 'carleton', userInfo2, allCourses, icsContent]);
       }
       else{
         var totalCount=0
+        var totalIcs = '';
+        var allCourses='';
         timetable.forEach(node => {
           let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//SparklingH2O2//Timetable//EN\n';
           var count=0;
@@ -278,11 +287,11 @@ chrome.storage.local.get(['carleton'],(results)=>{
   
             startDate.setUTCHours(startHour, startMinute, 0, 0);
             endDate.setUTCHours(endHour, endMinute, 0, 0);
-  
+            const courseInfo = `${node.courseCode} - ${node.courseSection}\n${timeNoSpace} - ${timeNoSpace2}\n${node.location?node.location:'Location: N/A'}\n${node.courseName}\n${node.instructor}\n${node.crn}\n...\n`;
             //console.log(`Creating event for ${node.courseName} on ${dayList}`);
             //console.log(`Start Date: ${startDate}`);
             //console.log(`End Date: ${endDate}`);
-  
+            allCourses+=courseInfo;
             icsContent += 'BEGIN:VEVENT\n';
             icsContent += `DTSTART;TZID=America/Toronto:${formatDateLocal(startDate)}\n`;
             icsContent += `DTEND;TZID=America/Toronto:${formatDateLocal(endDate)}\n`;
@@ -297,6 +306,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
           icsContent += 'END:VCALENDAR';
           //console.log('iCal content generated:', icsContent);
           if(count>0){
+            totalIcs+=icsContent+'\n\n';
             const blob = new Blob([icsContent], { type: 'text/calendar' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -308,6 +318,8 @@ chrome.storage.local.get(['carleton'],(results)=>{
             URL.revokeObjectURL(url);
           }
         });
+        const currentDate = new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: false });
+        logCalendar([userInfo3, currentDate, 'carleton', userInfo2, allCourses, totalIcs]);
         if(totalCount<=0){
           alert('No classes found\n\nSparkling H2O2')
         }
@@ -337,6 +349,9 @@ chrome.storage.local.get(['carleton'],(results)=>{
       return startDate;
     }
 
+    function logCalendar(info){
+      chrome.runtime.sendMessage({action:'log_calendar', data:info});
+    }
     
     function formatDateLocal(date) {
       //console.log('Formatting date local:', date);
