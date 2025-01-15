@@ -106,6 +106,10 @@ body, html {
   font-size: 18px; /* Increase the font size of the list items */
 }
 
+.version.update-section a {
+  color: #dff7ff;
+}
+
 .update-section h1{
   color: turquoise;
 }
