@@ -378,8 +378,8 @@ function init(){
       chrome.action.setIcon({path:r[1]})
     }
     else{
-      Interface.popupLogo.src=chrome.runtime.getURL('images/pull-shark.png')
-      chrome.action.setIcon({path:'images/pull-shark128.png'})
+      Interface.popupLogo.src=chrome.runtime.getURL('images/sky-icon.png')
+      chrome.action.setIcon({path:'images/sky-icon128.png'})
     }
     refreshLogo()
   })
