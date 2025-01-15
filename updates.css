@@ -184,12 +184,12 @@ body, html {
 
 .socials{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content:center;
   align-items: center;
   /* margin-top: 10px; */
   /* margin-bottom: 5px; */
-  gap: 15px;
+  gap: 3px;
   position:fixed;  
   top: 15px;
   right: 40px;
