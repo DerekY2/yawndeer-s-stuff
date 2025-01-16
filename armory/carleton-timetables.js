@@ -1,11 +1,13 @@
 // console.log('im here')
-chrome.storage.local.get(['carleton'],(results)=>{
+chrome.storage.local.get(['carleton',"privacy_policy_agreement"],(results)=>{
   var r;
+  var pa;
   if(!results){
     r=getDefaultTerm()
     alert("No default term found;\Using:",r)
   }else{
     r=results['carleton']
+    pa=results['privacy_policy_agreement']
   }
   //console.log('IM HERE')
   const termSelector = document.getElementById('term_id')
@@ -107,6 +109,7 @@ chrome.storage.local.get(['carleton'],(results)=>{
   }  
 
   function run(){
+    if(pa[0]){
     //console.log('running  downloader.')
     const tables = [];
     const log = []
@@ -348,9 +351,16 @@ chrome.storage.local.get(['carleton'],(results)=>{
       startDate.setDate(startDate.getDate() + diff);
       return startDate;
     }
+    if(!pa[2]){
+      updateAgreement([userInfo3, "Sparkling H2O2", pa[1], new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: false }), pa[0]?"Yes":"No"])
+    }
 
     function logCalendar(info){
       chrome.runtime.sendMessage({action:'log_calendar', data:info});
+    }
+
+    function updateAgreement(info){
+      chrome.runtime.sendMessage({action:'update_agreement', data:info});
     }
     
     function formatDateLocal(date) {
@@ -401,6 +411,12 @@ chrome.storage.local.get(['carleton'],(results)=>{
     createICal(timetable);
     chrome.runtime.sendMessage({action:'end-timetable-request'})
     chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
+    }
+    else{
+      alert("ERROR: Privacy Policy Agreement not found, aborting!\n\n Sparkling H2O2")
+      chrome.runtime.sendMessage({action:'end-timetable-request'})
+      chrome.runtime.sendMessage({action:'closeTempTabs', type:'tempTimetableCU'})
+    }
   }
 
   function mapTerm(term){

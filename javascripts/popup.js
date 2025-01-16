@@ -156,6 +156,21 @@ Interface.nodeLists.forEach(b=>{
   });
 })
 
+Overlays.policyAgreementCheckbox.addEventListener('change',()=>{
+  if(Overlays.policyAgreementCheckbox.checked){
+    Overlays.policyAgreementBtn.disabled = false;
+  }
+  else{
+    Overlays.policyAgreementBtn.disabled = true;
+  }
+})
+
+Overlays.policyAgreementBtn.addEventListener('click',e=>{
+    setLocal("privacy_policy_agreement", [true, new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: false }), false]);
+    Banners.screen.classList.add('hidden')
+    Overlays.policyModal.classList.add('hidden');
+})
+
 Overlays.infoBtns.forEach(btn=>{
   btn.addEventListener('click',e=>{
     e.preventDefault()
@@ -295,7 +310,7 @@ function setLocal(key, val){
           refresh[key](key)
         }
         catch(error){
-          console.error(`REFRESH ERROR:\n${error}`)
+          // console.error(`REFRESH ERROR FOR KEY ${key}:\n${error}`)
         }
       });
     } else {
@@ -371,8 +386,9 @@ function hideBanner(){
 }
 
 function init(){
-  chrome.storage.local.get(['popup-icon-src'],(result)=>{
+  chrome.storage.local.get(['popup-icon-src', 'privacy_policy_agreement'],(result)=>{
     const r=result['popup-icon-src']
+    const p=result['privacy_policy_agreement']
     if(r){
       Interface.popupLogo.src=chrome.runtime.getURL(r[0])
       chrome.action.setIcon({path:r[1]})
@@ -382,6 +398,11 @@ function init(){
       chrome.action.setIcon({path:'images/sky-icon128.png'})
     }
     refreshLogo()
+    if(!p || !p[0]){
+      Banners.screen.classList.remove('hidden')
+      Overlays.policyModal.classList.remove('hidden')
+      Overlays.policyAgreementBtn.disabled=true;
+    }
   })
   timetable.init()
   reactionTime.init()

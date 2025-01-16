@@ -16,6 +16,7 @@ class Interface {
 class Overlays {
   static allOverlays = document.querySelectorAll('.config-overlay');
   static darkScreen = document.querySelector(".dark-screen");
+  static policyModal = document.querySelector(".privacy-policy-modal")
   // Buttons
   static infoBtns = document.querySelectorAll('.info-btn');
   static saveBtns = document.querySelectorAll('.config-save-btn');
@@ -23,6 +24,8 @@ class Overlays {
   static presetBtns = document.querySelectorAll('.config-preset-btn');
   static closeBtns = document.querySelectorAll('.close-btn');
   static policyBtns = document.querySelectorAll('.config-policy-btn');
+  static policyAgreementCheckbox = document.getElementById('policy-agreement-checkbox');
+  static policyAgreementBtn = document.getElementById('policy-agreement-btn')
   // Sliders
   static sliders = document.querySelectorAll('.slider');
   static sliderInputs = document.querySelectorAll('.slider-textbox');
