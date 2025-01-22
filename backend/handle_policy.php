@@ -1,5 +1,5 @@
 <?php
-  include '../info/policyinfo.inc';
+  include 'dependencies';
   // Create connection
   $conn = new mysqli("Host IP", "User", "Auth", "Database"); // placeholder values for public release
 
