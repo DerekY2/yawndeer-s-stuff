@@ -1,9 +1,7 @@
 <?php
   include 'dependencies';
-  // Create connection
   $conn = new mysqli("Host IP", "User", "Auth", "Database"); // placeholder values for public release
 
-  // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
